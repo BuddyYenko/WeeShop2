@@ -3,7 +3,7 @@
     package="com.example.frank.weeshop">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login">
+        <activity android:name=".CashUp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Scanner" />
-        <activity android:name=".ScanHome"></activity>
+        <activity android:name=".ScanHome" />
+        <activity android:name=".Login"></activity>
     </application>
 
 </manifest>
