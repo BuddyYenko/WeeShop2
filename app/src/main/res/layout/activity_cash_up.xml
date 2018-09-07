@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CashUp">
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="460dp"
+        android:columnWidth="90dp"
+        android:numColumns="3"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center">
+    </ListView>
+
+    <Button
+        android:id="@+id/multiply"
+        android:layout_width="324dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#8A2BE2"
+        android:fontFamily="sans-serif"
+        android:text="Multiply"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="#fff"
+        android:textStyle="bold" />
+
+</RelativeLayout>
