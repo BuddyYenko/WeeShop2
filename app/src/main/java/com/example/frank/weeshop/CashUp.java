@@ -7,11 +7,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CashUp extends AppCompatActivity {
 
     String[] result = {""};
     EditText editText, editText1, editText2, edit1, edit2, edit3;
     Button button;
+    private List<CashValueModel> cashValueModelList;
+    private CashUpAdapter cashUpAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,27 +28,51 @@ public class CashUp extends AppCompatActivity {
         editText2 = findViewById(R.id.editText3);
         button = findViewById(R.id.multiply);
 
+        cashValueModelList = new ArrayList<>();
+        populateNote();
+
         final ListView list = findViewById(R.id.listView);
 
-        CashUpAdapter adapter = new CashUpAdapter(getApplicationContext(), result);
+        final CashUpAdapter adapter = new CashUpAdapter(CashUp.this, cashValueModelList);
         list.setAdapter(adapter);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                HashMap<String, Object> objectHashMap = (HashMap<String, Object>)adapter.getItem()
+
                 for (int i = 0; i < list.getCount(); i++) {
-                    int a = 0;
+                    double a = 0;
                     edit1 = getViewByPosition(i, list).findViewById(R.id.editText1);
                     edit2 = getViewByPosition(i, list).findViewById(R.id.editText2);
                     edit3 = getViewByPosition(i, list).findViewById(R.id.editText3);
+                    final CashValueModel cashValueModel = cashValueModelList.get(i);
+
                     if (!edit1.getText().toString().equals("") && !edit2.getText().toString().equals("")) {
-                        a = Integer.parseInt(String.valueOf(edit1.getText())) * Integer.parseInt(String.valueOf(edit2.getText().toString()));
+                        a = Integer.parseInt(String.valueOf(edit1.getText())) * Double.parseDouble(String.valueOf(cashValueModel.getCashValue()));
                     }
                     edit3.setText(String.valueOf(a));
                 }
             }
         });
 
+    }
+
+    private void populateNote() {
+        cashValueModelList.add(new CashValueModel("200", "R200"));
+        cashValueModelList.add(new CashValueModel("100", "R100"));
+        cashValueModelList.add(new CashValueModel("50", "R50"));
+        cashValueModelList.add(new CashValueModel("20", "R20"));
+        cashValueModelList.add(new CashValueModel("10", "R10"));
+        cashValueModelList.add(new CashValueModel("5", "R5"));
+        cashValueModelList.add(new CashValueModel("2", "R2"));
+        cashValueModelList.add(new CashValueModel("1", "R1"));
+        cashValueModelList.add(new CashValueModel("0.5", "50c"));
+        cashValueModelList.add(new CashValueModel("0.2", "20c"));
+        cashValueModelList.add(new CashValueModel("0.1", "10c"));
+
+
+        cashUpAdapter = new CashUpAdapter(CashUp.this, cashValueModelList);
     }
 
     public View getViewByPosition(int pos, ListView listView) {
