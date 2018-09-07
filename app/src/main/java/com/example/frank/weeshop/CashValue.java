@@ -8,5 +8,13 @@ public class CashValue {
     }
 
     public void setCashValue(String cashValue)
+    {
+        cashValue = cashValue;
+    }
+
+    public String getCashValue()
+    {
+        return cashValue;
+    }
 
 }
