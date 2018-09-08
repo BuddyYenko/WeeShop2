@@ -6,7 +6,7 @@ package com.example.frank.weeshop;
         private double price;
         private String quantity;
 
-        public Product(String product_id, double price, String quantity) {
+        public Product(String product_id, String name, double price, String quantity) {
             this.product_id = product_id;
             this.name = name;
             this.price = price;
