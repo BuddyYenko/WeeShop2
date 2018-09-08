@@ -12,9 +12,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="3">
-
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#DCC6E0"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:hint="Price"
+            android:inputType="number"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="false"/>
+        <EditText
+            android:id="@+id/quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -27,43 +39,6 @@
             android:hint="Quantity"
             android:descendantFocusability="beforeDescendants"
             android:focusable="true"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="X"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
-            android:fontFamily="sans-serif-condensed"
-            android:textColor="#000"/>
-
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#DCC6E0"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:hint="Price"
-            android:inputType="number"
-            android:descendantFocusability="beforeDescendants"
-            android:focusable="true"/>
-
-        <TextView
-            android:id="@+id/text3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="="
-            android:fontFamily="sans-serif-condensed"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:textColor="#000"/>
 
         <EditText
             android:id="@+id/editText3"

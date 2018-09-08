@@ -21,7 +21,7 @@ public class CashUpAdapter extends BaseAdapter {
         this.result = result;
     }
     private class ViewHolder {
-        public EditText edit1, edit2, edit3;
+        public EditText quantity, price, edit3;
     }
     @Override
     public int getCount() {
@@ -58,8 +58,8 @@ public class CashUpAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView =layoutInflater.inflate(R.layout.list_grid,parent,false);
-            viewHolder.edit1 = convertView.findViewById(R.id.editText1);
-            viewHolder.edit2 = convertView.findViewById(R.id.editText2);
+            viewHolder.quantity = convertView.findViewById(R.id.quantity);
+            viewHolder.price = convertView.findViewById(R.id.price);
             viewHolder.edit3 = convertView.findViewById(R.id.editText3);
 
             convertView.setTag(viewHolder);
@@ -69,7 +69,7 @@ public class CashUpAdapter extends BaseAdapter {
         else {
             viewHolder =(ViewHolder) convertView.getTag();
         }
-        viewHolder.edit2.setText(cashValueModel.getSymbol());
+        viewHolder.price.setText(cashValueModel.getSymbol());
 
         return convertView;
     }
