@@ -1,0 +1,476 @@
+Shopping Cart is most important feature of all Ecommerce Apps.
+If you want to create cart system as quickly as possible this is right place. Its basic yet customizable Shopping Cart for Android.
+
+Here,
+I introduce you with simplest and Customisable Shopping Cart System.
+
+Following is Step By Step Details of implementation :
+
+Step 1 : Create new Activity and Copy this into Layout file : activity_cart.xml
+<RelativeLayout android:background="#e1e1e1"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:id="@+id/layout_total"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:weightSum="2">
+        <TextView android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:text="Total : "
+            android:textSize="20dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:text="0 Rs"
+            android:textSize="20dp">
+        </TextView>
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_cart"
+        android:layout_above="@+id/btn_placeorder"
+        android:layout_below="@+id/layout_total"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+
+    <Button
+        android:id="@+id/btn_placeorder"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:onClick="insertOrder"
+        android:text="Place Order"
+        android:textColor="@android:color/white"
+        android:theme="@style/Theme.MaterialButton">
+    </Button>
+
+</RelativeLayout>
+
+
+Copy button style into style.xml in res->val->style.xml
+    <style name="Theme.MaterialButton" parent="AppTheme">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
+
+Download Images and Put it into your Drawable package :
+
+
+ic_plus
+
+ic_trash
+
+ic_minus
+
+Step 2 : Copy this into corresponding Java Activity File:
+
+
+public class CartActivity extends AppCompatActivity {
+
+    RecyclerView recycler_itemlist;
+    public static TextView tv_total;
+    CartListAdapter cartListAdapter;
+    public static int total=0;
+    String jsonCartList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cart);
+
+        //Set back button to activity
+        android.support.v7.app.ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setTitle("Cart");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        tv_total =(TextView) findViewById(R.id.tv_total);
+
+        recycler_itemlist =(RecyclerView) findViewById(R.id.recycler_cart);
+        recycler_itemlist.setHasFixedSize(true);
+        recycler_itemlist.setRecycledViewPool(new RecyclerView.RecycledViewPool());
+        recycler_itemlist.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+        recycler_itemlist.getRecycledViewPool().setMaxRecycledViews(0, 0);
+
+        cartListAdapter = new CartListAdapter(CartActivity.this,ItemListAdapter.selecteditems);
+        recycler_itemlist.setAdapter(cartListAdapter);
+
+        getIntentData();
+
+        calculateTotal();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void getIntentData(){
+        if(getIntent()!=null && getIntent().getExtras()!=null){
+           // Get the Required Parameters for sending Order to server.
+        }
+    }
+
+    public static void calculateTotal(){
+        int i=0;
+        total=0;
+        while(i<ItemListAdapter.selecteditems.size()){
+            total=total + ( Integer.valueOf(ItemListAdapter.selecteditems.get(i).getRate()) * Integer.valueOf(ItemListAdapter.selecteditems.get(i).getQuantity()) );
+            i++;
+        }
+        tv_total.setText(""+total);
+    }
+
+    public void insertOrder(View view){
+
+            if(total>0){
+
+            Gson gson = new Gson();
+            jsonCartList = gson.toJson(ItemListAdapter.selecteditems);
+
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            placeOrderRequest();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+            builder.setMessage("Do you want to place Order ?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+
+        }else{
+                Toast.makeText(CartActivity.this,"No items in Cart !",Toast.LENGTH_LONG).show();
+            }
+
+
+    }
+
+
+    private void placeOrderRequest(){
+       //Send Request to Server with required Parameters
+    /*
+   jsonCartList - Consists of Objects of all product selected.
+    */
+
+    }
+
+}
+
+
+Include gson and retrofit api :
+
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+
+
+
+
+
+Step 3 : Copy model class required to capture all attributes of an Item/Product :
+
+
+
+public class Item {
+
+    public String ItemId;
+    public String ItemName;
+    public String Size;
+    public String Company;
+    public String Rate;
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public String Status;
+
+    public String getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        Quantity = quantity;
+    }
+
+    public String Quantity;
+
+    public void setItemId(String ItemId){
+        this.ItemId=ItemId;
+    }
+    public String getItemId(){
+        return ItemId;
+    }
+    public void setItemName(String ItemName){
+        this.ItemName=ItemName;
+    }
+    public String getItemName(){
+        return ItemName;
+    }
+    public void setSize(String Size){
+        this.Size=Size;
+    }
+    public String getSize(){
+        return Size;
+    }
+    public void setCompany(String Company){
+        this.Company=Company;
+    }
+    public String getCompany(){
+        return Company;
+    }
+    public void setRate(String Rate){
+        this.Rate=Rate;
+    }
+    public String getRate(){
+        return Rate;
+    }
+
+    public String getJsonObject(){
+        return "{ItemId:"+ItemId+",ItemName:"+ItemName+",Size:"+Size+",Company:"+Company+",Rate:"+Rate+"}";
+    }
+}
+
+
+
+
+To create your custom Model class you can prefer my Automation Site :
+Model Class Generator
+
+
+Step 4 : Copy the ItemListAdapter:
+
+import android.app.Activity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import admin.employee.R;
+import admin.employee.listeners.ItemClickListener;
+import admin.employee.services.models.Item;
+import admin.employee.services.models.Retailer;
+
+
+public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder>  implements Filterable{
+    private List<Item> callListResponses = new ArrayList<>();
+    private Activity context;
+    final List<Item> templist=new ArrayList<>();
+    public static List<Item> selecteditems;
+    int lastPosition=0;
+
+    public ItemListAdapter(Activity context, List<Item> callListResponses)
+    {
+        super();
+        this.context = context;
+        this.callListResponses=callListResponses;
+        selecteditems=new ArrayList<>();
+        templist.addAll(callListResponses);
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View itemView = LayoutInflater.from(context).inflate(R.layout.row_single_item, parent, false);
+
+        return new ViewHolder(itemView);
+    }
+
+    public void init(){
+        templist.addAll(callListResponses);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Item call = callListResponses.get(position);
+
+        holder.tv_name.setText(call.getItemName());
+        holder.tv_rate.setText(call.getRate());
+        holder.tv_size.setText(call.getSize());
+        //Integer.parseInt(call.getQuantity())
+       // String total=String.valueOf(Integer.parseInt(call.getRate()) *Integer.parseInt( call.getQuantity()));
+       // holder.tv_total.setText(total);
+
+
+        holder.card_myevent.setOnClickListener(new ItemClickListener(context,call,holder.chk_selectitem));
+
+
+        if(ItemListAdapter.selecteditems.contains(call)){
+            holder.chk_selectitem.setChecked(true);
+        }else{
+            holder.chk_selectitem.setChecked(false);
+        }
+
+        setAnimation(holder.card_myevent,position);
+    }
+
+    //Animating single element
+    private void setAnimation(View viewToAnimate, int position)
+    {
+
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.push_right_in);
+            viewToAnimate.startAnimation(animation);
+            lastPosition=position;
+        }
+        position++;
+    }
+
+    @Override
+    public int getItemCount() {
+        //Log.d("Size List:",String.valueOf(callListResponses.size()));
+        if(callListResponses!=null){
+            return callListResponses.size();
+        }
+        return 0;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView tv_name,tv_size,tv_rate, tv_qty,tv_total;
+        CardView card_myevent;
+        CheckBox chk_selectitem;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            card_myevent=(CardView) itemView.findViewById(R.id.card_myevent);
+            tv_name=(TextView) itemView.findViewById(R.id.tv_name);
+            tv_size=(TextView) itemView.findViewById(R.id.tv_size);
+            tv_rate=(TextView) itemView.findViewById(R.id.tv_rate);
+            tv_qty=(TextView) itemView.findViewById(R.id.tv_qty);
+            tv_total=(TextView) itemView.findViewById(R.id.tv_total);
+            chk_selectitem=(CheckBox) itemView.findViewById(R.id.chk_selectitem);
+
+        }
+    }
+
+    public Filter getFilter() {
+
+        Filter mfilter = new Filter() {
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                callListResponses.clear();
+                callListResponses.addAll((ArrayList<Item>)results.values);
+                notifyDataSetChanged();
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults result = new FilterResults();
+                ArrayList<Item> res;
+                Log.e("Charswq",String.valueOf(constraint));
+                Log.e("Lenght",String.valueOf(constraint.length()));
+
+                res = new ArrayList<>();
+                if(constraint.length()>0){
+                    for(Item d: callListResponses){
+
+                        if(d.getItemName().toUpperCase().contains(constraint.toString().toUpperCase())
+                                || d.getSize().toUpperCase().contains(constraint.toString().toUpperCase())
+                                || d.getCompany().toUpperCase().contains(constraint.toString().toUpperCase())){
+                            res.add(d);
+                            Log.e("firmname",d.getItemName());
+                            Log.e("Name",d.getSize());
+                            Log.e("Contact",d.getCompany());
+                        }
+                    }
+                    result.count = res.size();
+                    result.values = res;
+                }
+
+                if(constraint.length() == 0){
+                    res.addAll(templist);
+                    result.count = res.size();
+                    result.values = res;
+                    Log.e("value of templeis",""+templist.size());
+                }
+
+                return result;
+            }
+        };
+
+        return mfilter;
+    }
+}
+
+
+
+Step 5 : Copy the Sole of Cart, Adding Items:
+
+We need to copy this static List variable into List Adapter used to display our Item / Product
+
+Just copy this line into Recycler or List Adapter so that
+Items can be added into this list and it can be accessed from any where.
+
+
+
+public static List <item> selecteditems;
+
+
+
+You can check if list already contains item to be added like this :
+
+
+        if(ItemListAdapter.selecteditems.contains(itemobject)){
+           //List already contains item
+        }else{
+            //List does not contains item you can add item here.
+            ItemListAdapter.selecteditems.add(itemobject);
+        }
+
+
+
+
+Step 6 : Removing Items from Cart :
+
+
+            ItemListAdapter.selecteditems.remove(item);
+            cartListAdapter.notifyDataSetChanged();
+            CartActivity.calculateTotal();
