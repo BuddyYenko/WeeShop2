@@ -28,4 +28,26 @@ package com.example.frank.weeshop;
         public String getQuantity() {
             return quantity;
         }
+
+
+
+        public void setProduct_id(String product_id) {
+            product_id = product_id;
+        }
+
+        public void setName(String name) {
+            name = name;
+        }
+        public void setPrice(double price) {
+            price = price;
+        }
+        public void setQuantity(String quantity) {
+            quantity = quantity;
+        }
+
+
+
+        public String getJsonObject(){
+            return "{Product_id:"+product_id+",name:"+name+",price:"+price+",quantity:"+quantity+"}";
+        }
     }

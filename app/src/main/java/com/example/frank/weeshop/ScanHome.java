@@ -1,21 +1,20 @@
 package com.example.frank.weeshop;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,63 +22,77 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.qbusict.cupboard.QueryResultIterable;
+import static com.example.frank.weeshop.ScanAdapter.listItems;
 
-import static nl.qbusict.cupboard.CupboardFactory.cupboard;
-
-public class ScanHome extends AppCompatActivity {
+public class ScanHome extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     IntentIntegrator scan;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
-    List<Product> listItems;
+//    List<Product> listItems;
     Button btn_scan;
     String url = "http://sict-iis.nmmu.ac.za/weeshop/app/unused/fetch.php";
     String product_id;
+    public static double total=0;
+    public static TextView tv_total;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_home);
 
 //        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
-////        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-//        Boolean beep = sharedPref.getBoolean("beep",true);
-//        Boolean frontCamera = sharedPref.getBoolean("frontCamera",false);
-//        int camId;
-//        if(frontCamera == false)
-//            camId = 0;
-//        else
-//            camId = 1;
-//        sharedPref.registerOnSharedPreferenceChangeListener(this);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean beep = sharedPref.getBoolean("beep",true);
+        Boolean frontCamera = sharedPref.getBoolean("frontCamera",false);
+        int camId;
+        if(frontCamera == false)
+            camId = 0;
+        else
+            camId = 1;
+        sharedPref.registerOnSharedPreferenceChangeListener(this);
 
         recyclerView =(RecyclerView)findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         listItems = new ArrayList<>();
-        adapter = new ScanAdapter(listItems, this);
+        //adapter = new ScanAdapter(ScanHome.this, (Context) ScanAdapter.listItems);//Changes
+        adapter = new ScanAdapter(listItems, this);//Changes
         recyclerView.setAdapter(adapter);
         CardView cardView = (CardView)findViewById(R.id.cardView);
+        tv_total =(TextView) findViewById(R.id.tv_total);
 
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+                Product product = listItems.get(position);
+
+                // Another line of code....
+                listItems.remove(position);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeChanged(position, listItems.size());
+
+            }
+        }).attachToRecyclerView(recyclerView);
 
         scan = new IntentIntegrator(this);
-        scan.setBeepEnabled(true);
-        scan.setCameraId(0);
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                scan.initiateScan();
-//            }
-//        });
+        scan.setBeepEnabled(beep);
+        scan.setCameraId(camId);
+
         btn_scan = (Button)findViewById(R.id.btn_scan);
         btn_scan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +100,26 @@ public class ScanHome extends AppCompatActivity {
                 scan.initiateScan();
             }
         });
+
+        getIntentData();
+
+        calculateTotal();
+
     }
+
+    private void getIntentData() {
+    }
+
+    private static void calculateTotal() {
+        int i = 0;
+        total = 0;
+        while (i < listItems.size()){
+            total=total + (Double.valueOf(listItems.get(i).getPrice()) * Integer.valueOf(listItems.get(i).getQuantity()));
+            i++;
+        }
+        tv_total.setText(""+total);
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
@@ -153,31 +185,28 @@ public class ScanHome extends AppCompatActivity {
                     //to a toast
                     Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
                 }
-
-//                Code codeObj = new Code(result.getContents(),result.getFormatName());
-//                PracticeDatabaseHelper dbHelper = new PracticeDatabaseHelper(this);
-//                SQLiteDatabase db = dbHelper.getWritableDatabase();
-//                long id = cupboard().withDatabase(db).put(codeObj);
-//                listItems.clear();
-//                adapter.notifyDataSetChanged();
-//                Cursor codes = cupboard().withDatabase(db).query(Code.class).orderBy( "_id DESC").getCursor();
-//                try {
-//                    // Iterate Bunnys
-//                    QueryResultIterable<Code> itr = cupboard().withCursor(codes).iterate(Code.class);
-//                    for (Code bunny : itr) {
-//                        // do something with bunny
-//                        ListItem listItem = new ListItem( bunny._id,bunny.name,bunny.type);
-//                        listItems.add(listItem);
-//                        adapter = new MyAdapter(listItems, this);
-//                        recyclerView.setAdapter(adapter);
-//                    }
-//                } finally {
-//                    // close the cursor
-//                    codes.close();
-//                }
-            }
+              }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("beep")){
+            scan.setBeepEnabled(sharedPreferences.getBoolean(key, true));
+        }
+        if (key.equals("frontCamera")){
+            int camId;
+            if (sharedPreferences.getBoolean(key, false)== false)
+                camId = 0;
+            else
+                camId = 1;
+            scan.setCameraId(camId);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 }
