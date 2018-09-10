@@ -40,24 +40,24 @@ public class CashUp extends AppCompatActivity {
         final CashUpAdapter adapter = new CashUpAdapter(CashUp.this, cashValueModelList);
         list.setAdapter(adapter);
 
-//        quantity.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                for (int i = 0; i < list.getCount(); i++) {
-//                    double a = 0;
-//                    quantity1 = getViewByPosition(i, list).findViewById(R.id.quantity);
-//                    price1 = getViewByPosition(i, list).findViewById(R.id.price);
-//                    edit3 = getViewByPosition(i, list).findViewById(R.id.editText3);
-//                    final CashValueModel cashValueModel = cashValueModelList.get(i);
-//
-//                    if (!quantity1.getText().toString().equals("") && !price1.getText().toString().equals("")) {
-//                        a = Integer.parseInt(String.valueOf(quantity1.getText())) * Double.parseDouble(String.valueOf(cashValueModel.getCashValue()));
-//                    }
-//                    edit3.setText(String.valueOf(a));
-//                }
-//            }
-//        });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                for (int i = 0; i < list.getCount(); i++) {
+                    double a = 0;
+                    quantity1 = getViewByPosition(i, list).findViewById(R.id.quantity);
+                    price1 = getViewByPosition(i, list).findViewById(R.id.price);
+                    edit3 = getViewByPosition(i, list).findViewById(R.id.editText3);
+                    final CashValueModel cashValueModel = cashValueModelList.get(i);
+
+                    if (!quantity1.getText().toString().equals("") && !price1.getText().toString().equals("")) {
+                        a = Integer.parseInt(String.valueOf(quantity1.getText())) * Double.parseDouble(String.valueOf(cashValueModel.getCashValue()));
+                    }
+                    edit3.setText(String.valueOf(a));
+                }
+            }
+        });
 
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override

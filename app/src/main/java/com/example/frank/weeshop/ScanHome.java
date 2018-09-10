@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
@@ -37,8 +38,8 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
 //    List<Product> listItems;
-    Button btn_scan;
-    String url = "http://sict-iis.nmmu.ac.za/weeshop/app/unused/fetch.php";
+    ImageView btn_scan;
+    String url = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch.php";
     String product_id;
     public static double total=0;
     public static TextView tv_total;
@@ -93,7 +94,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         scan.setBeepEnabled(beep);
         scan.setCameraId(camId);
 
-        btn_scan = (Button)findViewById(R.id.btn_scan);
+        btn_scan = findViewById(R.id.btn_scan);
         btn_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
