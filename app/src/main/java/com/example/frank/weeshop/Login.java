@@ -115,7 +115,7 @@ public class Login extends AppCompatActivity {
                 else if (code.equals("login_success")) {
                     Password.setText("");
                     Email.setText("");
-                    Intent scannerPage = new Intent(Login.this, Scanner.class);
+                    Intent scannerPage = new Intent(Login.this, Dashboard.class);
                     startActivity(scannerPage);
                 }
 

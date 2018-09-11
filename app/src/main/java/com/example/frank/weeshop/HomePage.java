@@ -16,7 +16,7 @@ import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Scanner extends AppCompatActivity implements View.OnClickListener {
+public class HomePage extends AppCompatActivity implements View.OnClickListener {
     private RequestQueue queue;
 
     //view objects
@@ -67,7 +67,7 @@ public class Scanner extends AppCompatActivity implements View.OnClickListener {
                     editor.putString("user_id", user_id);
                     editor.commit();
 
-                    Intent scanHome = new Intent(Scanner.this, ScanHome.class);
+                    Intent scanHome = new Intent(HomePage.this, ScanHome.class);
                     startActivity(scanHome);
 
                 } catch (JSONException e) {
