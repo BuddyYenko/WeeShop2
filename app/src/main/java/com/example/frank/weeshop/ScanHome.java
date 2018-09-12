@@ -38,7 +38,6 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     IntentIntegrator scan;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
-//    List<Product> listItems;
     ImageView btn_scan;
     String url = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch.php";
     String product_id;
@@ -71,16 +70,15 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
             camId = 1;
         sharedPref.registerOnSharedPreferenceChangeListener(this);
 
-        recyclerView =(RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView =findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         listItems = new ArrayList<>();
-        //adapter = new ScanAdapter(ScanHome.this, (Context) ScanAdapter.listItems);//Changes
         adapter = new ScanAdapter(listItems, this);//Changes
         recyclerView.setAdapter(adapter);
-        CardView cardView = (CardView)findViewById(R.id.cardView);
-        tv_total =(TextView) findViewById(R.id.tv_total);
-        grandTotal =(TextView) findViewById(R.id.grand_total);
+        CardView cardView = findViewById(R.id.cardView);
+        tv_total = findViewById(R.id.tv_total);
+        grandTotal = findViewById(R.id.grand_total);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -173,11 +171,13 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                                         listItems.add(productList);
                                         adapter = new ScanAdapter(listItems,ScanHome.this);
                                         recyclerView.setAdapter(adapter);
-                                        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
-                                        if(preferences.getString("finalTotal", "") != null){
-                                            finalTotal = Double.parseDouble(preferences.getString("finalTotal", "0"));
+//                                        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+//                                        if(preferences.getString("finalTotal", "") != null){
+//                                            finalTotal = Double.parseDouble(preferences.getString("finalTotal", "0"));
+//
+//                                        }
 
-                                        }
+                                        finalTotal = finalTotal  + (price * Double.parseDouble(quantity));
 
                                         grandTotal.setText(String.valueOf(finalTotal));
 
@@ -223,13 +223,13 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         }
     }
 
-    public double calculateTotal(){
-        int total = 0;
-        for(Product product: listItems){
-            total+=  product.getGrandTotal();
-        }
-        return total;
-    }
+//    public double calculateTotal(){
+//        int total = 0;
+//        for(Product product: listItems){
+//            total+=  product.getGrandTotal();
+//        }
+//        return total;
+//    }
 
 
 //    private int calculateTotal(List<Product> items){

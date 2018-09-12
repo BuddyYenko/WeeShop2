@@ -23,21 +23,14 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.example.frank.weeshop.ScanHome.tv_total;
 
 
-public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> implements Filterable{
+public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
     static List<Product> listItems;
     Context context;
     Activity activity;
     public String product_id;
     public static List<Product> selecteditems;
-    int lastPosition=0;
     final List<Product> templist=new ArrayList<>();
     private List<Product> callListResponses = new ArrayList<>();
-
-
-
-    public double finalTotal;
-
-
 
     public ScanAdapter(List<Product> callListResponses, Context context) {
         super();
@@ -54,22 +47,15 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> im
         public TextView tv_total;
         public TextView grandTotal;
         CardView cardView;
-        CheckBox checkBox;
-
-//        //public TextView getTextView_Id() {
-//            return textView_Id;
-//        }
 
         public ViewHolder(View itemView) {
             super(itemView);
-            cardView= (CardView)itemView.findViewById(R.id.cardView);
-            name = (TextView)itemView.findViewById(R.id.tv_name);
-            price = (TextView)itemView.findViewById(R.id.tv_price);
-            quantity = (TextView)itemView.findViewById(R.id.tv_quantity);
-            tv_total = (TextView)itemView.findViewById(R.id.tv_total);
-            grandTotal = (TextView)itemView.findViewById(R.id.grand_total);
-
-
+            cardView = itemView.findViewById(R.id.cardView);
+            name = itemView.findViewById(R.id.tv_name);
+            price = itemView.findViewById(R.id.tv_price);
+            quantity = itemView.findViewById(R.id.tv_quantity);
+            tv_total = itemView.findViewById(R.id.tv_total);
+            grandTotal = itemView.findViewById(R.id.grand_total);
 
         }
     }
@@ -90,49 +76,14 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> im
         product_id = productList.getProduct_id();
         holder.name.setText(productList.getName());
         holder.quantity.setText(productList.getQuantity());
-       // 1 holder.quantity.setText(call.get);
+
         String stringPrice= Double.toString(productList.getPrice());
-
         holder.price.setText(stringPrice);
-
         productList.tv_total = Double.valueOf(stringPrice) * Double.valueOf(productList.quantity);
-
-        //productList.tv_total = productList.price * productList.quantity;
 
         String stringTotal = Double.toString(productList.getTotal());
         holder.tv_total.setText(stringTotal);
-
-        finalTotal = finalTotal  + Double.parseDouble(holder.tv_total.getText().toString());
-
-       // holder.grandTotal.setText(String.valueOf(finalTotal));
-
-        createSessions(finalTotal);
-
-
     }
-
-    public void createSessions(Double finalTotal) {
-
-        SharedPreferences preferences = context.getSharedPreferences("MYPREFS", Context.MODE_PRIVATE);
-
-        String finalTotalSession = preferences.getString(finalTotal + "data", finalTotal.toString());
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("finalTotal", finalTotal.toString());
-
-        editor.commit();
-
-    }
-
-    private void grandTotal() {
-        int price=0;
-        for (int j = 0;j<callListResponses.size();j++){
-            price+=callListResponses.get(j).getPrice();
-        }
-
-        ScanHome.grandTotal.setText(""+price);
-    }
-
 
     @Override
     public int getItemCount() {
@@ -141,54 +92,5 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> im
         }
         return 0;
     }
-
-
-    public Filter getFilter() {
-
-        Filter mfilter = new Filter() {
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                callListResponses.clear();
-                callListResponses.addAll((ArrayList<Product>)results.values);
-                notifyDataSetChanged();
-            }
-
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults result = new FilterResults();
-                ArrayList<Product> res;
-                Log.e("Charswq",String.valueOf(constraint));
-                Log.e("Lenght",String.valueOf(constraint.length()));
-
-                res = new ArrayList<>();
-                if(constraint.length()>0){
-                    for(Product d: callListResponses){
-
-                        if(d.getName().toUpperCase().contains(constraint.toString().toUpperCase())){
-
-                            res.add(d);
-                            Log.e("Name",d.getName());
-
-                        }
-                    }
-                    result.count = res.size();
-                    result.values = res;
-                }
-
-                if(constraint.length() == 0){
-                    res.addAll(templist);
-                    result.count = res.size();
-                    result.values = res;
-                    Log.e("value of templeis",""+templist.size());
-                }
-
-                return result;
-            }
-        };
-
-        return mfilter;
-    }
-
-
 }
 
