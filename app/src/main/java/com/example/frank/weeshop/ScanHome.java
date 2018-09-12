@@ -60,11 +60,6 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
 
 
         //********************************************
-        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
-        if(preferences.getString("finalTotal", "") != null){
-            finalTotal = Double.parseDouble(preferences.getString("finalTotal", "0"));
-
-        }
 
         //********************************************
 
@@ -178,6 +173,12 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                                         listItems.add(productList);
                                         adapter = new ScanAdapter(listItems,ScanHome.this);
                                         recyclerView.setAdapter(adapter);
+                                        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+                                        if(preferences.getString("finalTotal", "") != null){
+                                            finalTotal = Double.parseDouble(preferences.getString("finalTotal", "0"));
+
+                                        }
+
                                         grandTotal.setText(String.valueOf(finalTotal));
 
 //                                        productList.setGrandTotal(total);
