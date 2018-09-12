@@ -1,17 +1,31 @@
 package com.example.frank.weeshop;
 
-    public class Product {
-        private String product_id;
-        private String name;
-        private double price;
-        private String quantity;
+import java.io.Serializable;
 
-        public Product(String product_id, String name, double price, String quantity) {
-            this.product_id = product_id;
-            this.name = name;
-            this.price = price;
-            this.quantity = quantity;
-        }
+public class Product implements Serializable{
+        public String product_id;
+        public String name;
+        public double price;
+        public String quantity;
+        public double tv_total;
+        public double grandTotal;
+
+//        public Product(String name, double price, String quantity, double tv_total, double grandTotal) {
+//            this.product_id = product_id;
+//            this.name = name;
+//            this.price = price;
+//            this.quantity = quantity;
+//            this.tv_total = tv_total;
+//            this.grandTotal = grandTotal;
+//        }
+
+    public Product(String name, double price, String quantity, double tv_total) {
+        this.product_id = product_id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.tv_total = tv_total;
+    }
 
         public String getProduct_id() {
             return product_id;
@@ -29,6 +43,14 @@ package com.example.frank.weeshop;
             return quantity;
         }
 
+        public double getTotal() {
+            return tv_total;
+        }
+
+        public double getGrandTotal() {
+                return grandTotal;
+    }
+
 
 
         public void setProduct_id(String product_id) {
@@ -44,10 +66,14 @@ package com.example.frank.weeshop;
         public void setQuantity(String quantity) {
             quantity = quantity;
         }
-
-
-
-        public String getJsonObject(){
-            return "{Product_id:"+product_id+",name:"+name+",price:"+price+",quantity:"+quantity+"}";
+        public void setTotal(double tv_total) {
+            tv_total = tv_total;
         }
+
+        public void setGrandTotal(double grandTotal) {
+        grandTotal = grandTotal;
+    }
+
+
+
     }

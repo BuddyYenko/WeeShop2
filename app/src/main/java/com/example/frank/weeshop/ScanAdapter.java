@@ -3,6 +3,7 @@ package com.example.frank.weeshop;
 import android.app.Activity;
 import android.app.LauncherActivity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.example.frank.weeshop.ScanHome.tv_total;
 
 
@@ -33,6 +35,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> im
 
 
 
+    public double finalTotal;
 
 
 
@@ -44,42 +47,12 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> im
         templist.addAll(callListResponses);
     }
 
-
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-        return new ViewHolder(v);
-    }
-    public void init(){
-        templist.addAll(callListResponses);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final Product productList = callListResponses.get(position);
-        product_id = productList.getProduct_id();
-        holder.name.setText(productList.getName());
-        holder.quantity.setText(productList.getQuantity());
-       // 1 holder.quantity.setText(call.get);
-        String stringprice= Double.toString(productList.getPrice());
-
-        holder.price.setText(stringprice);
-
-    }
-
-    @Override
-    public int getItemCount() {
-        if (callListResponses != null){
-            return callListResponses.size();
-        }
-        return 0;
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView name;
         public TextView price;
         public TextView quantity;
+        public TextView tv_total;
+        public TextView grandTotal;
         CardView cardView;
         CheckBox checkBox;
 
@@ -94,11 +67,82 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> im
             price = (TextView)itemView.findViewById(R.id.tv_price);
             quantity = (TextView)itemView.findViewById(R.id.tv_quantity);
             tv_total = (TextView)itemView.findViewById(R.id.tv_total);
+            grandTotal = (TextView)itemView.findViewById(R.id.grand_total);
 
 
 
         }
     }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        return new ViewHolder(v);
+    }
+    public void init(){
+        templist.addAll(callListResponses);
+    }
+
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final Product productList = callListResponses.get(position);
+        product_id = productList.getProduct_id();
+        holder.name.setText(productList.getName());
+        holder.quantity.setText(productList.getQuantity());
+       // 1 holder.quantity.setText(call.get);
+        String stringPrice= Double.toString(productList.getPrice());
+
+        holder.price.setText(stringPrice);
+
+        productList.tv_total = Double.valueOf(stringPrice) * Double.valueOf(productList.quantity);
+
+        //productList.tv_total = productList.price * productList.quantity;
+
+        String stringTotal = Double.toString(productList.getTotal());
+        holder.tv_total.setText(stringTotal);
+
+        finalTotal = finalTotal  + Double.parseDouble(holder.tv_total.getText().toString());
+
+       // holder.grandTotal.setText(String.valueOf(finalTotal));
+
+        createSessions(finalTotal);
+
+
+    }
+
+    public void createSessions(Double finalTotal) {
+
+        SharedPreferences preferences = context.getSharedPreferences("MYPREFS", Context.MODE_PRIVATE);
+
+        String finalTotalSession = preferences.getString(finalTotal + "data", finalTotal.toString());
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("finalTotal", finalTotal.toString());
+
+        editor.commit();
+
+    }
+
+    private void grandTotal() {
+        int price=0;
+        for (int j = 0;j<callListResponses.size();j++){
+            price+=callListResponses.get(j).getPrice();
+        }
+
+        ScanHome.grandTotal.setText(""+price);
+    }
+
+
+    @Override
+    public int getItemCount() {
+        if (callListResponses != null){
+            return callListResponses.size();
+        }
+        return 0;
+    }
+
+
     public Filter getFilter() {
 
         Filter mfilter = new Filter() {
@@ -145,14 +189,6 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> im
         return mfilter;
     }
 
-    private int grandTotal(List<Product> items){
 
-        int totalPrice = 0;
-        for(int i = 0 ; i < items.size(); i++) {
-            totalPrice += items.get(i).getPrice();
-        }
-
-        return totalPrice;
-    }
 }
 

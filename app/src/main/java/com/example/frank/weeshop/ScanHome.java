@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONArray;
@@ -43,6 +44,8 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     String product_id;
     public static double total=0;
     public static TextView tv_total;
+    public static TextView grandTotal;
+    public double finalTotal;
 
 
     @Override
@@ -54,6 +57,18 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean beep = sharedPref.getBoolean("beep",true);
         Boolean frontCamera = sharedPref.getBoolean("frontCamera",false);
+
+
+        //********************************************
+        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+        if(preferences.getString("finalTotal", "") != null){
+            finalTotal = Double.parseDouble(preferences.getString("finalTotal", "0"));
+
+        }
+
+        //********************************************
+
+
         int camId;
         if(frontCamera == false)
             camId = 0;
@@ -70,6 +85,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         recyclerView.setAdapter(adapter);
         CardView cardView = (CardView)findViewById(R.id.cardView);
         tv_total =(TextView) findViewById(R.id.tv_total);
+        grandTotal =(TextView) findViewById(R.id.grand_total);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -102,24 +118,15 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
             }
         });
 
-        getIntentData();
 
-        calculateTotal();
+
+//        calculateTotal(listItems);
 
     }
 
-    private void getIntentData() {
-    }
 
-    private static void calculateTotal() {
-        int i = 0;
-        total = 0;
-        while (i < listItems.size()){
-            total=total + (Double.valueOf(listItems.get(i).getPrice()) * Integer.valueOf(listItems.get(i).getQuantity()));
-            i++;
-        }
-        tv_total.setText(""+total);
-    }
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -143,18 +150,39 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                                     try {
                                         JSONArray jsonArray = new JSONArray(response);
                                         JSONObject jsonObject = jsonArray.getJSONObject(0);
-//
-//                                        String code = jsonObject.getString("code");
-//                                        String message = jsonObject.getString("message");
+
+                                        for (int i = 0; i < listItems.size(); i++)
+                                        {
+                                            JSONObject productJObject = new JSONObject();
+
+                                            productJObject.put("name", listItems.get(i).name);
+                                            productJObject.put("price", listItems.get(i).price);
+                                            productJObject.put("quantity", listItems.get(i).quantity);
+                                            productJObject.put("total", listItems.get(i).tv_total);
+                                            jsonArray.put(productJObject);
+
+                                        }
+                                        jsonObject.put("product_id", jsonArray);
+                                        jsonObject.put("total", total);
+
                                         String name = jsonObject.getString("name");
-                                        String id = jsonObject.getString("product_id");
+                                        //String id = jsonObject.getString("product_id");
                                         Double price = jsonObject.getDouble("price");
                                         String quantity = jsonObject.getString("quantity");
+                                        Double total = jsonObject.getDouble("total");
+//                                        Double grandTotal = jsonObject.getDouble("grandTotal");
 
-                                        Product productList = new Product(id, name, price, quantity);
+                                        //Product productList = new Product(name, price, quantity, total, grandTotal);
+
+                                        Product productList = new Product(name, price, quantity, total);
                                         listItems.add(productList);
                                         adapter = new ScanAdapter(listItems,ScanHome.this);
                                         recyclerView.setAdapter(adapter);
+                                        grandTotal.setText(String.valueOf(finalTotal));
+
+//                                        productList.setGrandTotal(total);
+//                                        grandTotal = findViewById(R.id.grand_total);
+//                                        Toast.makeText("Total : " + calculateTotal(), Toast.LENGTH_LONG).show();
 
 
                                     } catch (JSONException e) {
@@ -177,6 +205,8 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                         }
                     };
                     MySingleton.getInstance(ScanHome.this).addToRequestque(stringRequest);
+
+
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
@@ -191,6 +221,27 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    public double calculateTotal(){
+        int total = 0;
+        for(Product product: listItems){
+            total+=  product.getGrandTotal();
+        }
+        return total;
+    }
+
+
+//    private int calculateTotal(List<Product> items){
+//
+//        int grandTotal = 0;
+//        for(int i = 0 ; i < items.size(); i++) {
+//            grandTotal += items.get(i).getTotal();
+//        }
+//
+//        return grandTotal;
+//    }
+
+
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("beep")){
             scan.setBeepEnabled(sharedPreferences.getBoolean(key, true));

@@ -29,12 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_below="@+id/main_toolbar"
-
-
-
-
-
-
         android:padding="5dp"
         android:weightSum="2">
         <TextView android:gravity="end"
@@ -47,7 +41,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/tv_total"
+            android:id="@+id/grand_total"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_width="match_parent"
