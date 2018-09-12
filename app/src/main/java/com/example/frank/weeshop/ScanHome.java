@@ -27,6 +27,8 @@ import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +47,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     public static TextView tv_total;
     public static TextView grandTotal;
     public double finalTotal;
+//    private BreakIterator txtCount;
 
 
     @Override
@@ -58,9 +61,9 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         Boolean frontCamera = sharedPref.getBoolean("frontCamera",false);
 
 
-        //********************************************
 
-        //********************************************
+
+
 
 
         int camId;
@@ -79,6 +82,11 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         CardView cardView = findViewById(R.id.cardView);
         tv_total = findViewById(R.id.tv_total);
         grandTotal = findViewById(R.id.grand_total);
+
+
+
+
+
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -114,6 +122,29 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
 
 
 //        calculateTotal(listItems);
+
+
+//        final int[] count = {1};
+//        ImageView buttonInc=  findViewById(R.id.increase);
+//        ImageView buttonDec= findViewById(R.id.decrease);
+//
+//        buttonInc.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                count[1]++;
+//                txtCount.setText(String.valueOf(count[1]));
+//
+//            }
+//        });
+//
+//        buttonDec.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                count[1]--;
+//                txtCount.setText(String.valueOf(count[1]));
+//
+//            }
+//        });
 
     }
 

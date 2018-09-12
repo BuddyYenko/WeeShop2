@@ -10,6 +10,7 @@ import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -32,6 +33,11 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
     final List<Product> templist=new ArrayList<>();
     private List<Product> callListResponses = new ArrayList<>();
 
+    int count=0;
+
+
+
+
     public ScanAdapter(List<Product> callListResponses, Context context) {
         super();
         this.callListResponses = callListResponses;
@@ -47,6 +53,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
         public TextView tv_total;
         public TextView grandTotal;
         CardView cardView;
+        public Button increase, decrease;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -56,6 +63,8 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
             quantity = itemView.findViewById(R.id.tv_quantity);
             tv_total = itemView.findViewById(R.id.tv_total);
             grandTotal = itemView.findViewById(R.id.grand_total);
+
+
 
         }
     }
@@ -71,11 +80,12 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final Product productList = callListResponses.get(position);
         product_id = productList.getProduct_id();
         holder.name.setText(productList.getName());
         holder.quantity.setText(productList.getQuantity());
+        //holder.quantity.setText("" + productList.getQuantity(position).quantity);
 
         String stringPrice= Double.toString(productList.getPrice());
         holder.price.setText(stringPrice);

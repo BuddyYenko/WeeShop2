@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="4">
+            android:weightSum="6">
             <TextView
 
                 android:id="@+id/tv_name"
@@ -50,19 +50,32 @@
                 android:layout_weight="1"
                 tools:text="price" />
 
+            <ImageView
+                android:id="@+id/decrease"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/minus"
+                android:padding="10dp"/>
+
             <TextView
 
                 android:id="@+id/tv_quantity"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textIsSelectable="true"
                 android:textSize="20sp"
                 android:layout_weight="1"
-                tools:text="quantity" />
+                tools:text="qty" />
+
+            <ImageView
+                android:id="@+id/increase"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/plus"
+                android:layout_marginStart="1dp"
+                android:padding="10dp"/>
 
             <TextView
 
