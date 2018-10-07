@@ -2,6 +2,7 @@ package com.example.frank.weeshop;
 
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -26,18 +27,19 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReturnHome extends AppCompatActivity implements View.OnClickListener {
+public class ReturnHome extends AppCompatActivity{
 
-    String url = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch_product.php";
-    String RETURN_URL = "http://sict-iis.nmmu.ac.za/weeshop/app/returns.php";
+    String FETCH_URL = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch_product.php";
+    String RETURN_URL ="http://sict-iis.nmmu.ac.za/weeshop/app/returns.php";
     Button return_product;
     ImageView btn_scan;
-    EditText txt_product_id, txt_name, txt_quantity;
-    String userID, productID, productName;
+    EditText txt_product_id, txt_name, txt_quantity, txt_message;
+    String userID, productID, productName, quantity, message;
 
     private RequestQueue queue;
 
     IntentIntegrator scan;
+    android.support.v7.app.AlertDialog.Builder builder;
 
 
 
@@ -45,6 +47,8 @@ public class ReturnHome extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return_home);
+
+        builder = new android.support.v7.app.AlertDialog.Builder(ReturnHome.this);
 
         queue = Volley.newRequestQueue(this);
 
@@ -60,28 +64,31 @@ public class ReturnHome extends AppCompatActivity implements View.OnClickListene
         Intent intent=new Intent(getApplicationContext(),ReturnHome.class);
         final PendingIntent pi=PendingIntent.getActivity(getApplicationContext(), 0, intent,0);
 
-        txt_product_id =  findViewById(R.id.ret_product_id);
+        //txt_product_id =  findViewById(R.id.ret_product_id);
         txt_name = findViewById(R.id.ret_name);
         txt_quantity = findViewById(R.id.ret_quantity);
         return_product = findViewById(R.id.return_product);
+        txt_message = findViewById(R.id.ret_sms);
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, FETCH_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
-                            txt_product_id.setText(jsonObject.getString("product_id"));
+                            //txt_product_id.setText(jsonObject.getString("product_id"));
                             txt_name.setText(jsonObject.getString("name"));
                             txt_quantity.setText(jsonObject.getString("quantity"));
 
-                            String UserSession = jsonObject.getString("user_id");
 
-                            String ProdSession = jsonObject.getString("product_id");
-
-                            createUserSession(UserSession, ProdSession);
+//
+//                            String UserSession = jsonObject.getString("user_id");
+//
+//                            String ProdSession = jsonObject.getString("product_id");
+//
+//                            createUserSession(UserSession, ProdSession);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -103,51 +110,78 @@ public class ReturnHome extends AppCompatActivity implements View.OnClickListene
             }
         };
         MySingleton.getInstance(ReturnHome.this).addToRequestque(stringRequest);
-        txt_product_id.setText(productID);
+        //txt_product_id.setText(productID);
         txt_name.setText(productName);
+
+
 
 
 
         return_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, RETURN_URL,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-                                    JSONArray jsonArray = new JSONArray(response);
-                                    JSONObject jsonObject = jsonArray.getJSONObject(0);
-                                    String userID = jsonObject.getString("user_id");
-                                    String productID = jsonObject.getString("product_id");
-                                    createUserSession(userID, productID);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+
+
+
+                //productID = txt_product_id.getText().toString();
+                productName = txt_name.getText().toString();
+                quantity = txt_quantity.getText().toString();
+                message = txt_message.getText().toString();
+
+
+                if (productID.equals("")) {
+                    builder.setTitle("Something Went Wrong...");
+                    builder.setMessage("Quantity cannot be empty or 0.");
+                    displayAlert("input_error");
+                } else {
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, RETURN_URL,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONArray jsonArray = new JSONArray(response);
+                                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                        String code = jsonObject.getString("code");
+                                        String message = jsonObject.getString("message");
+
+                                        if (code.equals("return_success")) {
+                                            String userID = jsonObject.getString("user_id");
+                                            String productID = jsonObject.getString("product_id");
+                                            createSessions(userID, productID);
+                                        }
+                                        builder.setTitle("WeeShop Response");
+                                        builder.setMessage(message);
+                                        displayAlert(code);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<String, String>();
 
-                        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
-
-
-                        userID = preferences.getString("user_id", "");
-                        params.put("user_id", userID);
-                        params.put("product_id", productID);
-                        params.put("name", productName);
-                        return params;
-                    }
-                };
-                MySingleton.getInstance(ReturnHome.this).addToRequestque(stringRequest);
+                            SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
 
 
+                            userID = preferences.getString("user_id", "");
+                            params.put("user_id", userID);
+                            params.put("product_id", productID);
+                            params.put("name", productName);
+                            params.put("quantity", quantity);
+                            params.put("message", message);
+                            return params;
+                        }
+                    };
+                    MySingleton.getInstance(ReturnHome.this).addToRequestque(stringRequest);
+
+                }
             }
         });
 
@@ -157,9 +191,10 @@ public class ReturnHome extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onClick(View view) {
                 scan.initiateScan();
-                txt_product_id.getText().clear();
+                //txt_product_id.getText().clear();
                 txt_name.getText().clear();
                 txt_quantity.getText().clear();
+                txt_message.getText().clear();
             }
         });
 
@@ -185,10 +220,43 @@ public class ReturnHome extends AppCompatActivity implements View.OnClickListene
 
     }
 
-    @Override
-    public void onClick(View view)
-    {
+    public void displayAlert(final String code) {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (code.equals("input_error")) {
+                    //Password.setText("");
+                }
 
+                else if (code.equals("return_failed")) {
+                    //Password.setText("");
+                }
+                else if (code.equals("return_success")) {
+                    //Password.setText("");
+                    //Email.setText("");
+                    Intent home = new Intent(ReturnHome.this, Dashboard.class);
+                    startActivity(home);
+                }
+
+            }
+        });
+
+        android.support.v7.app.AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
+    public void createSessions(String userID, String productID) {
+
+        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+
+        String userIDSession = preferences.getString(userID + "data", userID);
+        String productIDSession = preferences.getString(productID + "data", productID);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("user_id", userIDSession);
+        editor.putString("product_id", productIDSession);
+
+        editor.commit();
+
+    }
 }

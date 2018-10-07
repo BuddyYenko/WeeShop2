@@ -55,15 +55,15 @@
     </LinearLayout>
 
 
-    <EditText
-        android:id="@+id/ret_product_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@android:color/white"
-        android:inputType="text"
-        android:focusable="false"
-        android:padding="10dp" />
+    <!--<EditText-->
+        <!--android:id="@+id/ret_product_id"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:background="@android:color/white"-->
+        <!--android:inputType="text"-->
+        <!--android:focusable="false"-->
+        <!--android:padding="10dp" />-->
 
 
     <EditText
@@ -83,6 +83,15 @@
         android:background="@android:color/white"
         android:hint="Enter Quantity"
         android:inputType="number"
+        android:padding="10dp" />
+    <EditText
+        android:id="@+id/ret_sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        android:hint="Enter Reason"
+        android:inputType="text"
         android:padding="10dp" />
 
     <Button
