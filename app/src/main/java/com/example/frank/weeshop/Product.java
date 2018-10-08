@@ -10,22 +10,16 @@ public class Product implements Serializable{
         public double tv_total;
         public double grandTotal;
 
-//        public Product(String name, double price, String quantity, double tv_total, double grandTotal) {
-//            this.product_id = product_id;
-//            this.name = name;
-//            this.price = price;
-//            this.quantity = quantity;
-//            this.tv_total = tv_total;
-//            this.grandTotal = grandTotal;
-//        }
 
-    public Product(String name, double price, String quantity, double tv_total) {
+    public Product(String product_id, String name, double price, String quantity) {
         this.product_id = product_id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.tv_total = tv_total;
+
     }
+
+
 
         public String getProduct_id() {
             return product_id;
@@ -51,12 +45,9 @@ public class Product implements Serializable{
                 return grandTotal;
     }
 
-
-
         public void setProduct_id(String product_id) {
             product_id = product_id;
         }
-
         public void setName(String name) {
             name = name;
         }
@@ -69,7 +60,6 @@ public class Product implements Serializable{
         public void setTotal(double tv_total) {
             tv_total = tv_total;
         }
-
         public void setGrandTotal(double grandTotal) {
         grandTotal = grandTotal;
     }

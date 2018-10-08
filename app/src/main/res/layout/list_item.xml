@@ -67,7 +67,7 @@
                 android:textIsSelectable="true"
                 android:textSize="20sp"
                 android:layout_weight="1"
-                tools:text="qty" />
+                tools:text="1" />
 
             <ImageView
                 android:id="@+id/increase"
@@ -90,7 +90,20 @@
                 android:textSize="20sp"
                 android:layout_weight="1"
                 tools:text="total" />
+            <TextView
 
+                android:id="@+id/tv_qoh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textIsSelectable="true"
+                android:textSize="20sp"
+                android:layout_weight="1"
+
+                 />
 
         </LinearLayout>
         <android.support.constraint.ConstraintLayout

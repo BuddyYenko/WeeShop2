@@ -211,9 +211,9 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                                         Double total = jsonObject.getDouble("total");
 //                                        Double grandTotal = jsonObject.getDouble("grandTotal");
 
-                                        //Product productList = new Product(name, price, quantity, total, grandTotal);
+                                        Product productList = new Product(product_id, name, price, quantity);
 
-                                        Product productList = new Product(name, price, quantity, total);
+                                        //Product productList = new Product(name, price, quantity, total);
                                         listItems.add(productList);
                                         adapter = new ScanAdapter(listItems,ScanHome.this);
                                         recyclerView.setAdapter(adapter);
