@@ -30,33 +30,30 @@ import static com.example.frank.weeshop.ScanHome.tv_total;
 
 
 public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
-    static List<Product> listItems;
+
+    private List<Product> listItems;
     Context context;
-    Activity activity;
-    public String product_id;
-    public static List<Product> selecteditems;
-    final List<Product> templist=new ArrayList<>();
-    private List<Product> callListResponses = new ArrayList<>();
-
-    int count=0;
 
 
 
+    public ScanAdapter(List<Product> listItems) {
+        this.listItems = listItems;
 
-    public ScanAdapter(List<Product> callListResponses, Context context) {
-        super();
-        this.callListResponses = callListResponses;
-        this.context = context;
-        selecteditems= new ArrayList<>();
-        templist.addAll(callListResponses);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    public ScanAdapter(List<Product> listItems, Context context) {
+
+        this.listItems = listItems;
+        this.context = context;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView name;
         public TextView price;
         public TextView quantity, qoh;
         public TextView tv_total;
-        public TextView grandTotal;
+        public TextView tv_grandTotal;
         CardView cardView;
         public ImageView increase, decrease;
 
@@ -67,7 +64,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
             price = itemView.findViewById(R.id.tv_price);
             quantity = itemView.findViewById(R.id.tv_quantity);
             tv_total = itemView.findViewById(R.id.tv_total);
-            grandTotal = itemView.findViewById(R.id.grand_total);
+            tv_grandTotal = itemView.findViewById(R.id.grand_total);
             qoh = itemView.findViewById(R.id.tv_qoh);
             increase = itemView.findViewById(R.id.increase);
             decrease = itemView.findViewById(R.id.decrease);
@@ -80,27 +77,38 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+
         return new ViewHolder(v);
-    }
-    public void init(){
-        templist.addAll(callListResponses);
     }
 
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Product productList = callListResponses.get(position);
-        product_id = productList.getProduct_id();
+        final Product productList = listItems.get(position);
         holder.name.setText(productList.getName());
         holder.qoh.setText(productList.getQuantity());
-        holder.quantity.setText("1");
 
-        String stringPrice= Double.toString(productList.getPrice());
+
+        holder.quantity.setText("1");
+        int quantityValue;
+        final String stringPrice = Double.toString(productList.getPrice());
         holder.price.setText(stringPrice);
-        productList.tv_total = Double.valueOf(stringPrice) * Double.valueOf(productList.quantity);
+        String calc =  String.valueOf(Double.valueOf(stringPrice) * Double.valueOf(holder.quantity.getText().toString()));
+        holder.tv_total.setText(calc);
+
+        // = productList.tv_total + Double.valueOf(productList.quantity);
+        //finalTotal = finalTotal  + (price * Double.parseDouble(quantity));
 
         String stringTotal = Double.toString(productList.getTotal());
-        holder.tv_total.setText(stringTotal);
+       // holder.tv_total.setText(stringTotal);
+
+        //finalTotal = finalTotal  + (price * Double.parseDouble(quantity));
+
+
+
+        String stringGrandTotal = Double.toString(productList.getGrandTotal());
+        stringGrandTotal += stringTotal;
+//        holder.tv_grandTotal.setText(stringGrandTotal);
 
         holder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,10 +148,9 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (callListResponses != null){
-            return callListResponses.size();
-        }
-        return 0;
+
+            return listItems.size();
+
     }
 
 

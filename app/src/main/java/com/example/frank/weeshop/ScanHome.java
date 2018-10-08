@@ -36,8 +36,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.frank.weeshop.ScanAdapter.listItems;
-
 public class ScanHome extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     IntentIntegrator scan;
     RecyclerView recyclerView;
@@ -49,7 +47,8 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     public static TextView tv_total;
     public static TextView grandTotal;
     public double finalTotal;
-//    private BreakIterator txtCount;
+    public List <Product> listItems;
+    //    private BreakIterator txtCount;
     private android.support.v7.widget.Toolbar toolbar;
 
 
@@ -190,28 +189,28 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                                         JSONArray jsonArray = new JSONArray(response);
                                         JSONObject jsonObject = jsonArray.getJSONObject(0);
 
-                                        for (int i = 0; i < listItems.size(); i++)
-                                        {
-                                            JSONObject productJObject = new JSONObject();
-
-                                            productJObject.put("name", listItems.get(i).name);
-                                            productJObject.put("price", listItems.get(i).price);
-                                            productJObject.put("quantity", listItems.get(i).quantity);
-                                            productJObject.put("total", listItems.get(i).tv_total);
-                                            jsonArray.put(productJObject);
-
-                                        }
+//                                        for (int i = 0; i < listItems.size(); i++)
+//                                        {
+//                                            JSONObject productJObject = new JSONObject();
+//
+//                                            productJObject.put("name", listItems.get(i).name);
+//                                            productJObject.put("price", listItems.get(i).price);
+//                                            productJObject.put("quantity", listItems.get(i).quantity);
+//                                            productJObject.put("total", listItems.get(i).tv_total);
+//                                            jsonArray.put(productJObject);
+//
+//                                        }
                                         jsonObject.put("product_id", jsonArray);
-                                        jsonObject.put("total", total);
+                                       // jsonObject.put("total", total);
 
                                         String name = jsonObject.getString("name");
                                         //String id = jsonObject.getString("product_id");
                                         Double price = jsonObject.getDouble("price");
-                                        String quantity = jsonObject.getString("quantity");
-                                        Double total = jsonObject.getDouble("total");
+                                        String qoh = jsonObject.getString("quantity");
+                                       // Double total = jsonObject.getDouble("total");
 //                                        Double grandTotal = jsonObject.getDouble("grandTotal");
 
-                                        Product productList = new Product(product_id, name, price, quantity);
+                                        Product productList = new Product(product_id, name, price, qoh);
 
                                         //Product productList = new Product(name, price, quantity, total);
                                         listItems.add(productList);
@@ -223,9 +222,9 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
 //
 //                                        }
 
-                                        finalTotal = finalTotal  + (price * Double.parseDouble(quantity));
+                                        //finalTotal = finalTotal  + (price * Double.parseDouble(quantity));
 
-                                        grandTotal.setText(String.valueOf(finalTotal));
+                                      //  grandTotal.setText(String.valueOf(finalTotal));
 
 //                                        productList.setGrandTotal(total);
 //                                        grandTotal = findViewById(R.id.grand_total);
@@ -263,7 +262,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                     //to a toast
                     Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
                 }
-              }
+            }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
