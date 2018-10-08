@@ -6,35 +6,41 @@
     android:background="@drawable/background"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="50dp"
     tools:context=".ReturnHome">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:orientation="vertical">
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/toolbar"
+        ></include>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/view_logo"
-            android:layout_width="307dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/logo" />
 
     </LinearLayout>
+
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:padding="50dp"
         android:orientation="vertical"
-        android:layout_weight="4">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Returns"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -42,7 +48,7 @@
             android:textAlignment="center"
             android:layout_gravity="center"/>
 
-        <TextView
+            <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,6 +58,43 @@
             android:textColor="@android:color/white"
             android:textAlignment="center"
             android:layout_gravity="center"/>
+        <EditText
+            android:id="@+id/ret_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@android:color/white"
+            android:inputType="text"
+            android:focusable="false"
+            android:padding="10dp" />
+        <EditText
+            android:id="@+id/ret_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@android:color/white"
+            android:hint="Enter Quantity"
+            android:inputType="number"
+            android:padding="10dp" />
+        <EditText
+            android:id="@+id/ret_sms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@android:color/white"
+            android:hint="Enter Reason"
+            android:inputType="text"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/return_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#8A2BE2"
+            android:text="@string/return_product"
+            android:textColor="@android:color/white" />
+
     </LinearLayout>
 
 
@@ -66,42 +109,42 @@
         <!--android:padding="10dp" />-->
 
 
-    <EditText
-        android:id="@+id/ret_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@android:color/white"
-        android:inputType="text"
-        android:focusable="false"
-        android:padding="10dp" />
-    <EditText
-        android:id="@+id/ret_quantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@android:color/white"
-        android:hint="Enter Quantity"
-        android:inputType="number"
-        android:padding="10dp" />
-    <EditText
-        android:id="@+id/ret_sms"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@android:color/white"
-        android:hint="Enter Reason"
-        android:inputType="text"
-        android:padding="10dp" />
+    <!--<EditText-->
+        <!--android:id="@+id/ret_name"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:background="@android:color/white"-->
+        <!--android:inputType="text"-->
+        <!--android:focusable="false"-->
+        <!--android:padding="10dp" />-->
+    <!--<EditText-->
+        <!--android:id="@+id/ret_quantity"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:background="@android:color/white"-->
+        <!--android:hint="Enter Quantity"-->
+        <!--android:inputType="number"-->
+        <!--android:padding="10dp" />-->
+    <!--<EditText-->
+        <!--android:id="@+id/ret_sms"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:background="@android:color/white"-->
+        <!--android:hint="Enter Reason"-->
+        <!--android:inputType="text"-->
+        <!--android:padding="10dp" />-->
 
-    <Button
-        android:id="@+id/return_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="#8A2BE2"
-        android:text="@string/return_product"
-        android:textColor="@android:color/white" />
+    <!--<Button-->
+        <!--android:id="@+id/return_product"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:background="#8A2BE2"-->
+        <!--android:text="@string/return_product"-->
+        <!--android:textColor="@android:color/white" />-->
 
     <LinearLayout
         android:layout_width="match_parent"

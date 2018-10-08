@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,6 +38,8 @@ public class ReturnHome extends AppCompatActivity{
     String userID, productID, productName, quantity, message;
 
     private RequestQueue queue;
+    private android.support.v7.widget.Toolbar toolbar;
+
 
     IntentIntegrator scan;
     android.support.v7.app.AlertDialog.Builder builder;
@@ -47,6 +50,19 @@ public class ReturnHome extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return_home);
+
+
+        toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.ic_home);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),Dashboard.class));
+            }
+        });
+
 
         builder = new android.support.v7.app.AlertDialog.Builder(ReturnHome.this);
 

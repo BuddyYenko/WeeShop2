@@ -6,11 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".Dashboard"
     android:orientation="vertical"
-    android:padding="10dp"
     android:background="@drawable/background"
-    android:gravity="center"
     android:id="@+id/ll">
+
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/toolbar"></include>
+
+
+
+
+
     <LinearLayout
+
         android:clipToPadding="false"
         android:gravity="center"
         android:orientation="horizontal"
@@ -161,4 +170,6 @@
 
 
     </LinearLayout>
+
+
 </LinearLayout>

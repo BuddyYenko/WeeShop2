@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -48,12 +50,25 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     public static TextView grandTotal;
     public double finalTotal;
 //    private BreakIterator txtCount;
+    private android.support.v7.widget.Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_home);
+
+        toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.ic_home);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),Dashboard.class));
+            }
+        });
+
 
 //        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);

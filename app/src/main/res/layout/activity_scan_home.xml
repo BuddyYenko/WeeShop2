@@ -7,7 +7,19 @@
     android:id="@+id/coordinate"
     tools:context=".ScanHome">
 
+    
+
     <include layout="@layout/content_main" />
+
+    <Button
+        android:id="@+id/btn_placeorder"
+        android:layout_width="174dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:background="#8A2BE2"
+        android:text="Place Order"
+        android:textColor="@android:color/white"
+        android:theme="@style/Theme.MaterialButton" />
 
 
     <ImageView

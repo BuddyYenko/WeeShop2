@@ -12,7 +12,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Returns">
+        <activity android:name=".Dashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomePage" />
-        <activity android:name=".Dashboard" />
-        <activity android:name=".CashUp" />
-        <activity android:name=".ReturnHome" />
-        <activity android:name=".Login" />
+        <activity android:name=".Returns" />
         <activity android:name=".ScanHome" />
+        <activity android:name=".CashUp" />
+        <activity android:name=".Login" />
+        <activity android:name=".ReturnHome" />
     </application>
 
 </manifest>
