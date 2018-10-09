@@ -1,32 +1,19 @@
 package com.example.frank.weeshop;
 
-import android.app.Activity;
-import android.app.LauncherActivity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Filter;
-import android.widget.Filterable;
-import java.util.ArrayList;
+
 import java.util.List;
-import android.util.Log;
 
 import com.tooltip.Tooltip;
-
-import static android.content.Context.MODE_PRIVATE;
-import static com.example.frank.weeshop.ScanHome.tv_total;
 
 
 public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
@@ -121,6 +108,9 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
                 {
                     int qty = Integer.parseInt(holder.quantity.getText().toString())+1;
                     holder.quantity.setText(String.valueOf(qty));
+                    Double calc =  Double.valueOf(Double.valueOf(stringPrice) * Double.valueOf(holder.quantity.getText().toString()));
+                    holder.tv_total.setText(calc.toString());
+
                 }
                 else if (quantityInc == quantityOnHand)
                 {
@@ -141,6 +131,8 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
                 {
                     int qty = Integer.parseInt(holder.quantity.getText().toString())-1;
                     holder.quantity.setText(String.valueOf(qty));
+                    Double calc = Double.valueOf(String.valueOf(holder.tv_total.getText().toString())) - Double.valueOf(productList.getPrice());
+                    holder.tv_total.setText(calc.toString());
                 }
             }
         });

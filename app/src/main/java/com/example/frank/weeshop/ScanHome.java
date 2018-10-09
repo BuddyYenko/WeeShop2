@@ -178,7 +178,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                 try
                 {
                     JSONObject obj = new JSONObject(result.getContents());
-                    //setting values to textviews
+
                     product_id = obj.getString("product_id");
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -189,46 +189,20 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                                         JSONArray jsonArray = new JSONArray(response);
                                         JSONObject jsonObject = jsonArray.getJSONObject(0);
 
-//                                        for (int i = 0; i < listItems.size(); i++)
-//                                        {
-//                                            JSONObject productJObject = new JSONObject();
-//
-//                                            productJObject.put("name", listItems.get(i).name);
-//                                            productJObject.put("price", listItems.get(i).price);
-//                                            productJObject.put("quantity", listItems.get(i).quantity);
-//                                            productJObject.put("total", listItems.get(i).tv_total);
-//                                            jsonArray.put(productJObject);
-//
-//                                        }
                                         jsonObject.put("product_id", jsonArray);
-                                       // jsonObject.put("total", total);
 
                                         String name = jsonObject.getString("name");
-                                        //String id = jsonObject.getString("product_id");
+//                                        String product_id = jsonObject.getString("product_id");
                                         Double price = jsonObject.getDouble("price");
                                         String qoh = jsonObject.getString("quantity");
-                                       // Double total = jsonObject.getDouble("total");
-//                                        Double grandTotal = jsonObject.getDouble("grandTotal");
+
 
                                         Product productList = new Product(product_id, name, price, qoh);
 
-                                        //Product productList = new Product(name, price, quantity, total);
                                         listItems.add(productList);
                                         adapter = new ScanAdapter(listItems,ScanHome.this);
                                         recyclerView.setAdapter(adapter);
-//                                        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
-//                                        if(preferences.getString("finalTotal", "") != null){
-//                                            finalTotal = Double.parseDouble(preferences.getString("finalTotal", "0"));
 //
-//                                        }
-
-                                        //finalTotal = finalTotal  + (price * Double.parseDouble(quantity));
-
-                                      //  grandTotal.setText(String.valueOf(finalTotal));
-
-//                                        productList.setGrandTotal(total);
-//                                        grandTotal = findViewById(R.id.grand_total);
-//                                        Toast.makeText("Total : " + calculateTotal(), Toast.LENGTH_LONG).show();
 
 
                                     } catch (JSONException e) {
