@@ -1,16 +1,20 @@
 package com.example.frank.weeshop;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -134,33 +138,34 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         });
 
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("Total"));
 
-//        calculateTotal(listItems);
-
-
-//        final int[] count = {1};
-//        ImageView buttonInc=  findViewById(R.id.increase);
-//        ImageView buttonDec= findViewById(R.id.decrease);
-//
-//        buttonInc.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                count[1]++;
-//                txtCount.setText(String.valueOf(count[1]));
-//
-//            }
-//        });
-//
-//        buttonDec.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                count[1]--;
-//                txtCount.setText(String.valueOf(count[1]));
-//
-//            }
-//        });
 
     }
+
+    public final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+
+            Double grandTotalFinal = 0.00;
+            grandTotalFinal = intent.getDoubleExtra("grandTotalFinal", grandTotalFinal);
+
+
+
+            Double tsum = 0.00;
+            for (int i = 0; i < listItems.size(); i++){
+                tsum = tsum + grandTotalFinal;
+            }
+            Log.d("total pay : ", String.valueOf(tsum));
+            Toast.makeText(ScanHome.this, grandTotalFinal.toString(), Toast.LENGTH_SHORT).show();
+
+            grandTotal.setText(tsum.toString());
+
+
+        }
+    };
 
 
 

@@ -1,7 +1,9 @@
 package com.example.frank.weeshop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import com.tooltip.Tooltip;
+
+import static com.example.frank.weeshop.ScanHome.grandTotal;
 
 
 public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
@@ -93,6 +97,9 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
 
 
 
+
+
+
         String stringGrandTotal = Double.toString(productList.getGrandTotal());
         stringGrandTotal += stringTotal;
 //        holder.tv_grandTotal.setText(stringGrandTotal);
@@ -108,19 +115,28 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
                 {
                     int qty = Integer.parseInt(holder.quantity.getText().toString())+1;
                     holder.quantity.setText(String.valueOf(qty));
-                    Double calc =  Double.valueOf(Double.valueOf(stringPrice) * Double.valueOf(holder.quantity.getText().toString()));
+                    Double calc =  Double.valueOf(stringPrice) * Double.valueOf(holder.quantity.getText().toString());
                     holder.tv_total.setText(calc.toString());
 
+                    Double grandTotalFinal = 0.00;
+                    grandTotalFinal += calc;
+
+                    Intent intent = new Intent("Total");
+                    intent.putExtra("grandTotalFinal",grandTotalFinal);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
                 }
-                else if (quantityInc == quantityOnHand)
-                {
-                   // holder.increase();
-                    switch (view.getId()){
-                        case R.id.increase:
-                            showTooltip(view, Gravity.TOP);
-                            break;
-                    }
-                }
+                //String tt = holder.tv_grandTotal.getText().toString();
+
+//                else if (quantityInc == quantityOnHand)
+//                {
+//                   // holder.increase();
+//                    switch (view.getId()){
+//                        case R.id.increase:
+//                            showTooltip(view, Gravity.TOP);
+//                            break;
+//                    }
+//                }
             }
         });
         holder.decrease.setOnClickListener(new View.OnClickListener() {
@@ -131,11 +147,52 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
                 {
                     int qty = Integer.parseInt(holder.quantity.getText().toString())-1;
                     holder.quantity.setText(String.valueOf(qty));
-                    Double calc = Double.valueOf(String.valueOf(holder.tv_total.getText().toString())) - Double.valueOf(productList.getPrice());
+                    Double calc = Double.valueOf(String.valueOf(holder.tv_total.getText().toString())) - productList.getPrice();
                     holder.tv_total.setText(calc.toString());
+
+                    Double grandTotalFinal = 0.00;
+                    grandTotalFinal = grandTotalFinal - calc;
+
+                    Intent intent = new Intent("Total");
+                    intent.putExtra("grandTotalFinal",grandTotalFinal);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
+
+
+
+                    //String finalTotal = String.valueOf(holder.tv_grandTotal.getText(Double.valueOf(grandTotalFinal)));
                 }
+                //String tt = holder.tv_grandTotal.getText().toString();
             }
         });
+
+//        Double grandTotalFinal = 0.00;
+//        Intent intent = new Intent("Total");
+//        intent.putExtra("grandTotalFinal",grandTotalFinal);
+//        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
+
+
+
+        //String finalTotal = String.valueOf(holder.tv_grandTotal.getText(grandTotalFinal));
+
+//        String ItemName = tv.getText().toString();
+//        String qty = quantity.getText().toString();
+        //String qty = quantity.getText().toString();
+
+
+
+
+//
+//        String grandTotalString = stringGrandTotal.getText().toString();
+//        String qty = quantity.getText().toString();
+//
+//        Double grandTotalFinal = gra
+//        Intent intent = new Intent("custom-message");
+//        //            intent.putExtra("quantity",Integer.parseInt(quantity.getText().toString()));
+//        intent.putExtra("quantity",qty);
+//        intent.putExtra("item",ItemName);
+//        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     @Override
