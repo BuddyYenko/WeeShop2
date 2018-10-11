@@ -9,21 +9,19 @@
         android:id="@+id/tool_bar"
         layout="@layout/toolbar"/>
 
-
-
-
     <LinearLayout
+        android:gravity="end"
         android:layout_below="@+id/tool_bar"
-        android:id="@+id/layout_total"
+        android:id="@+id/layout_total_sales"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="5dp"
         android:weightSum="2">
-        <TextView android:gravity="end"
+        <TextView
+            android:gravity="end"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:text="Total : R "
+            android:layout_width="wrap_content"
+            android:text="Total Sales: R "
             android:textColor="@android:color/white"
             android:textSize="20sp">
         </TextView>
@@ -31,8 +29,59 @@
         <TextView
             android:id="@+id/grand_total"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="20sp">
+        </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="end"
+        android:layout_below="@+id/layout_total_sales"
+        android:id="@+id/layout_cash_paid"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:weightSum="2">
+        <TextView
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Cash Paid : R "
+            android:textColor="@android:color/white"
+            android:textSize="20sp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/cash_amount"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="20sp">
+        </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="end"
+        android:layout_below="@+id/layout_cash_paid"
+        android:id="@+id/layout_difference"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:weightSum="2">
+        <TextView
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Difference : R "
+            android:textColor="@android:color/white"
+            android:textSize="20sp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/difference"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:text="0"
             android:textColor="@android:color/white"
             android:textSize="20sp">
@@ -43,7 +92,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_above="@+id/btn_placeorder"
-        android:layout_below="@+id/layout_total"
+        android:layout_below="@+id/layout_difference"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

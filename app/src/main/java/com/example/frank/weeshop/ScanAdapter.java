@@ -74,7 +74,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final Product productList = listItems.get(position);
         holder.name.setText(productList.getName());
         holder.qoh.setText(productList.getQuantity());
