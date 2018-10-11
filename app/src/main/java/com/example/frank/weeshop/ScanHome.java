@@ -1,10 +1,12 @@
 package com.example.frank.weeshop;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
@@ -15,9 +17,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -47,14 +53,20 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     ImageView btn_scan;
     String url = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch.php";
     String product_id;
-    public static double total=0;
+    public static double total = 0;
     public static TextView tv_total;
     public static TextView grandTotal;
     public double finalTotal;
-    public List <Product> listItems;
+    public List<Product> listItems;
     //    private BreakIterator txtCount;
     private android.support.v7.widget.Toolbar toolbar;
 
+
+    public PopupWindow popupWindow;
+    TextView txt_cashUp, txt_difference;
+    EditText txt_total_sales;
+    Button btn_calculate, btn_save;
+    Button placeOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,30 +80,46 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Dashboard.class));
+                startActivity(new Intent(getApplicationContext(), Dashboard.class));
             }
         });
 
 
 //        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean beep = sharedPref.getBoolean("beep",true);
-        Boolean frontCamera = sharedPref.getBoolean("frontCamera",false);
+        Boolean beep = sharedPref.getBoolean("beep", true);
+        Boolean frontCamera = sharedPref.getBoolean("frontCamera", false);
 
 
+        btn_calculate = findViewById(R.id.calculate);
+        btn_save = findViewById(R.id.save);
+        txt_cashUp = findViewById(R.id.pop_grand_total);
+        txt_difference = findViewById(R.id.pop_difference);
+        txt_total_sales = findViewById(R.id.pop_cash_paid);
+        placeOrder = findViewById(R.id.btn_placeorder);
 
 
+        placeOrder.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //startActivity(new Intent(getApplicationContext(),popupWindow.class));
+           /* if you want to finish the first activity then just call
+            finish(); */
+            }
+        });
 
 
 
         int camId;
-        if(frontCamera == false)
+        if (frontCamera == false)
             camId = 0;
         else
             camId = 1;
         sharedPref.registerOnSharedPreferenceChangeListener(this);
 
-        recyclerView =findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         listItems = new ArrayList<>();
@@ -102,11 +130,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         grandTotal = findViewById(R.id.grand_total);
 
 
-
-
-
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -153,9 +177,8 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
             grandTotalFinal = intent.getDoubleExtra("grandTotalFinal", grandTotalFinal);
 
 
-
             Double tsum = 0.00;
-            for (int i = 0; i < listItems.size(); i++){
+            for (int i = 0; i < listItems.size(); i++) {
                 tsum = tsum + grandTotalFinal;
             }
             Log.d("total pay : ", String.valueOf(tsum));
@@ -168,9 +191,6 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     };
 
 
-
-
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
@@ -180,8 +200,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
 
                 snackbar.show();
             } else {
-                try
-                {
+                try {
                     JSONObject obj = new JSONObject(result.getContents());
 
                     product_id = obj.getString("product_id");
@@ -205,7 +224,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                                         Product productList = new Product(product_id, name, price, qoh);
 
                                         listItems.add(productList);
-                                        adapter = new ScanAdapter(listItems,ScanHome.this);
+                                        adapter = new ScanAdapter(listItems, ScanHome.this);
                                         recyclerView.setAdapter(adapter);
 //
 
@@ -232,8 +251,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                     MySingleton.getInstance(ScanHome.this).addToRequestque(stringRequest);
 
 
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                     //if control comes here
                     //that means the encoded format not matches
@@ -268,12 +286,12 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
 
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("beep")){
+        if (key.equals("beep")) {
             scan.setBeepEnabled(sharedPreferences.getBoolean(key, true));
         }
-        if (key.equals("frontCamera")){
+        if (key.equals("frontCamera")) {
             int camId;
-            if (sharedPreferences.getBoolean(key, false)== false)
+            if (sharedPreferences.getBoolean(key, false) == false)
                 camId = 0;
             else
                 camId = 1;
@@ -285,5 +303,76 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     protected void onDestroy() {
         super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+
+    private void callPopup() {
+
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        View popupView = layoutInflater.inflate(R.layout.popup, null);
+
+        final PopupWindow popupWindow = new PopupWindow(popupView,
+                Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.MATCH_PARENT,
+                true);
+        final TextView Name;
+
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+        Name = (EditText) popupView.findViewById(R.id.pop_cash_paid);
+
+        (popupView.findViewById(R.id.save))
+                .setOnClickListener(new View.OnClickListener() {
+
+                    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+                    public void onClick(View arg0) {
+                        Toast.makeText(getApplicationContext(),
+                                Name.getText().toString(), Toast.LENGTH_LONG).show();
+
+                        popupWindow.dismiss();
+
+                    }
+
+                });
+        (popupView.findViewById(R.id.save)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Double money  = 0.00;
+//                for (int i = 0; i < list.getCount(); i++) {
+//                    double cashup_value = 0;
+//                    quantity1 = getViewByPosition(i, list).findViewById(R.id.quantity);
+//                    price1 = getViewByPosition(i, list).findViewById(R.id.price);
+//                    edit3 = getViewByPosition(i, list).findViewById(R.id.editText3);
+//                    final CashValueModel cashValueModel = cashValueModelList.get(i);
+//
+//                    if (!quantity1.getText().toString().equals("") && !price1.getText().toString().equals("")) {
+//                        cashup_value = Integer.parseInt(String.valueOf(quantity1.getText())) * Double.parseDouble(String.valueOf(cashValueModel.getCashValue()));
+//                    }
+//                    edit3.setText(String.format("%.2f", cashup_value));
+//                    money += Double.valueOf(edit3.getText().toString());
+//                }
+
+                txt_cashUp.setText(String.format("%.2f", money));
+
+                //difference = sales - money;
+                //txt_difference.setText(String.format("%.2f", difference));
+
+
+
+            }
+
+        });
+
+        (popupView.findViewById(R.id.calculate))
+                .setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View arg0) {
+
+                        popupWindow.dismiss();
+                    }
+                });
     }
 }

@@ -1,103 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CashUp">
-
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/toolbar"/>
-
-    <ListView
-        android:layout_below="@+id/tool_bar"
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnWidth="90dp"
-        android:numColumns="3"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:stretchMode="columnWidth"
-        android:paddingBottom="15dp"
-        android:gravity="center">
-    </ListView>
+    android:layout_gravity="center"
+    android:background="@drawable/background">
 
     <LinearLayout
-        android:id="@+id/layout_sales"
+        android:gravity="center"
+        android:id="@+id/layout_total_sales"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="end"
         android:padding="5dp"
-        android:layout_above="@+id/layout_total"
         android:weightSum="2">
-
-        <TextView android:gravity="end"
+        <TextView
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Total Sales : R "
+            android:text="Total Sales: R "
+            android:textColor="@android:color/white"
             android:textSize="20sp">
         </TextView>
 
         <TextView
-            android:id="@+id/total_sales"
+            android:id="@+id/pop_grand_total"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="0"
+            android:textColor="@android:color/white"
             android:textSize="20sp">
         </TextView>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/layout_total"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:gravity="end"
-        android:padding="5dp"
-        android:layout_above="@+id/layout_difference"
-        android:weightSum="2">
 
-        <TextView android:gravity="end"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Cash Up Total : R "
-            android:textSize="20sp">
-        </TextView>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_below="@+id/layout_total_sales"
+        android:id="@+id/layout_cash_paid"
+        android:weightSum="2"
+        android:padding="5dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/grand_total"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="0"
+            android:text="Cash Paid : R "
+            android:textColor="@android:color/white"
             android:textSize="20sp">
         </TextView>
+
+
+        <EditText
+            android:background="@color/backgroundcolor"
+
+            android:id="@+id/pop_cash_paid"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+
+            android:focusable="true"/>
+
+
     </LinearLayout>
+
     <LinearLayout
+        android:gravity="center"
+        android:layout_below="@+id/layout_cash_paid"
         android:id="@+id/layout_difference"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="end"
         android:padding="5dp"
-        android:layout_above="@+id/linear"
         android:weightSum="2">
-
-        <TextView android:gravity="end"
+        <TextView
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Difference : R "
+            android:textColor="@android:color/white"
             android:textSize="20sp">
         </TextView>
 
         <TextView
-            android:id="@+id/difference"
+            android:id="@+id/pop_difference"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="0"
+            android:textColor="@android:color/white"
             android:textSize="20sp">
         </TextView>
     </LinearLayout>
 
 
     <LinearLayout
+        android:layout_below="@+id/layout_difference"
         android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -105,7 +102,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/multiply"
+            android:id="@+id/calculate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
@@ -113,11 +110,12 @@
             android:text="Calculate" />
 
         <Button
-            android:id="@+id/cashUp"
+            android:id="@+id/save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Cash Up"
+            android:text="Save"
             />
     </LinearLayout>
+
 </RelativeLayout>
