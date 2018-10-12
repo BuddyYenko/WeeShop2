@@ -61,6 +61,15 @@
             android:inputType="number"
 
             android:focusable="true"/>
+        <TextView
+            android:id="@+id/pop_cash_paid_tv"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="0"
+
+            android:textSize="20sp">
+        </TextView>
 
 
     </LinearLayout>

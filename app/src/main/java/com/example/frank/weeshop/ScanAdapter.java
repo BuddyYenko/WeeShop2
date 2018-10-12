@@ -25,6 +25,7 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
     private List<Product> listItems;
     Context context;
 
+    Double grandTotal = 0.00;
 
 
     public ScanAdapter(List<Product> listItems) {
@@ -62,6 +63,8 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
 
 
 
+
+
         }
     }
 
@@ -94,7 +97,16 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
        // holder.tv_total.setText(stringTotal);
 
         //finalTotal = finalTotal  + (price * Double.parseDouble(quantity));
+       // int qty = Integer.parseInt(holder.quantity.getText().toString())+1;
 
+       // holder.quantity.setText(String.valueOf(qty));
+       // Double calc =  Double.valueOf(stringPrice);
+        holder.tv_total.setText(Double.toString(productList.getPrice()));
+        grandTotal = grandTotal + productList.getPrice();
+       //grandTotalFinal += calc;
+        Intent intent = new Intent("Total");
+        intent.putExtra("grandTotalFinal",grandTotal);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
 
 
@@ -114,15 +126,20 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
                 if (quantityInc < quantityOnHand)
                 {
                     int qty = Integer.parseInt(holder.quantity.getText().toString())+1;
-                    holder.quantity.setText(String.valueOf(qty));
-                    Double calc =  Double.valueOf(stringPrice) * Double.valueOf(holder.quantity.getText().toString());
+                   // holder.quantity.setText(String.valueOf(qty));
+                    //Double calc =  Double.valueOf(stringPrice) * Double.valueOf(holder.quantity.getText().toString());
+                    Double calc = productList.price * productList.custQuantity;
+
+                    productList.setCustQuantity(productList.custQuantity++);
+                    holder.quantity.setText(String.valueOf(productList.custQuantity));
+
                     holder.tv_total.setText(calc.toString());
 
-                    Double grandTotalFinal = 0.00;
-                    grandTotalFinal += calc;
+                    //Double grandTotalFinal = 0.00;
+                    grandTotal += calc;
 
                     Intent intent = new Intent("Total");
-                    intent.putExtra("grandTotalFinal",grandTotalFinal);
+                    intent.putExtra("grandTotalFinal",grandTotal);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
                 }
@@ -147,14 +164,15 @@ public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
                 {
                     int qty = Integer.parseInt(holder.quantity.getText().toString())-1;
                     holder.quantity.setText(String.valueOf(qty));
-                    Double calc = Double.valueOf(String.valueOf(holder.tv_total.getText().toString())) - productList.getPrice();
+                    productList.setCustQuantity(productList.custQuantity--);
+                    Double calc = productList.price * productList.custQuantity;
                     holder.tv_total.setText(calc.toString());
 
-                    Double grandTotalFinal = 0.00;
-                    grandTotalFinal = grandTotalFinal - calc;
+                   // Double grandTotalFinal = 0.00;
+                    grandTotal = grandTotal - calc;
 
                     Intent intent = new Intent("Total");
-                    intent.putExtra("grandTotalFinal",grandTotalFinal);
+                    intent.putExtra("grandTotalFinal",grandTotal);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
 
