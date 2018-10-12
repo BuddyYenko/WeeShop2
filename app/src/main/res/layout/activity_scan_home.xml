@@ -30,4 +30,5 @@
         android:src="@drawable/qrcode"
         />
 
+
 </android.support.design.widget.CoordinatorLayout>

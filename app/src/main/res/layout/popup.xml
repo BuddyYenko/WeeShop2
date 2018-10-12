@@ -51,18 +51,8 @@
             android:textSize="20sp">
         </TextView>
 
-
-        <EditText
-            android:background="@color/backgroundcolor"
-
-            android:id="@+id/pop_cash_paid"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-
-            android:focusable="true"/>
         <TextView
-            android:id="@+id/pop_cash_paid_tv"
+            android:id="@+id/pop_cash_paid"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textColor="@android:color/white"

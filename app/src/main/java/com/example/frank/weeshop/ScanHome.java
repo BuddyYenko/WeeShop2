@@ -59,6 +59,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     public static double total = 0;
     public static TextView tv_total;
     public static TextView grandTotal;
+    public static EditText cashPaid;
     public double finalTotal;
     public List<Product> listItems;
     //    private BreakIterator txtCount;
@@ -71,36 +72,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     Button btn_calculate, btn_save;
     Button placeOrder;
 
-    public final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
 
-
-            Double grandTotalFinal = 0.00;
-            grandTotalFinal = intent.getDoubleExtra("grandTotalFinal", grandTotalFinal);
-
-
-            Double tsum = 0.00;
-            for (int i = 0; i < listItems.size(); i++) {
-                tsum = tsum + grandTotalFinal;
-            }
-            Log.d("total pay : ", String.valueOf(tsum));
-            Toast.makeText(ScanHome.this, grandTotalFinal.toString(), Toast.LENGTH_SHORT).show();
-
-            grandTotal.setText(grandTotalFinal.toString());
-
-
-        }
-    };
-
-    private void updateValue() {
-        String str1 = edt_cash_paid.getText().toString();
-        TextView txt_cash_paid = findViewById(R.id.pop_cash_paid_tv);
-
-        //String result = edit.getText().toString();
-        txt_cash_paid.setText(str1);
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +95,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean beep = sharedPref.getBoolean("beep", true);
         Boolean frontCamera = sharedPref.getBoolean("frontCamera", false);
+
 
 
 
@@ -152,6 +125,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
 
 
                 txt_grand_total = view.findViewById(R.id.pop_grand_total);
+                txt_cash_paid = view.findViewById(R.id.pop_cash_paid);
 
 
                 txt_difference = view.findViewById(R.id.pop_difference);
@@ -163,6 +137,17 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
 
 
                 txt_grand_total.setText(grandTotal.getText());
+                edt_cash_paid = findViewById(R.id.edt_cash_paid);
+                //edt_cash_paid.setText(TextView.BufferType.EDITABLE);
+                //final TextView tv = findViewById(R.id.pop_cash_paid);
+
+                cash_paid = edt_cash_paid.getText().toString();
+
+                 txt_cash_paid.setText((CharSequence) cashPaid);
+                 Double pay = Double.parseDouble(cash_paid);
+                 //tv.setText(pay.toString());
+
+                txt_cash_paid.setText(cash_paid);
 
                 builder.setView(view);
                 final AlertDialog dialog = builder.create();
@@ -171,39 +156,17 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                 btn_calculate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ScanHome.this);
-                        final View view1 = getLayoutInflater().inflate(R.layout.popup, null);
-                        String cash_paid, cash_pay;
+
+                        String cash_paid;
                         String sales;
                         Double salesTotal;
                         Double cashPaidTotal;
                         Double difference;
 
-                        final EditText edt_cash_paid = view1.findViewById(R.id.pop_cash_paid);
-
-                        edt_cash_paid.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                                ScanHome.this.updateValue();
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                            }
+                        //final EditText edt_cash_paid = view1.findViewById(R.id.pop_cash_paid);
 
 
-                            @Override
-                            public void afterTextChanged(Editable s) {
-
-                            }
-                        });
-
-
-
-
-                        edt_cash_paid.getText().toString();
+                        //edt_cash_paid.getText().toString();
                         //cash_paid = edt_cash_paid.getText().toString();
                         //final TextView txt_cash_paid = view1.findViewById(R.id.pop_cash_paid_tv);
 
@@ -212,10 +175,12 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                       //  txt_cash_paid.setText(edt_cash_paid.getText());
 
                         sales = String.valueOf(txt_grand_total.getText().toString());
-                        cash_pay = String.valueOf(edt_cash_paid.getText().toString());
+                        //cash_paid = String.valueOf(txt_cash_paid.getText().toString());
+                        cash_paid = String.valueOf(edt_cash_paid.getText().toString());
+
 
                         salesTotal = Double.parseDouble(sales);
-                        cashPaidTotal = Double.parseDouble(cash_pay);
+                        cashPaidTotal = Double.parseDouble(cash_paid);
                         difference = salesTotal - cashPaidTotal;
                         txt_difference.setText(String.format("%.2f", difference));
 
@@ -333,6 +298,8 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         }).attachToRecyclerView(recyclerView);
 
         scan = new IntentIntegrator(this);
+        scan.setOrientationLocked(false);
+        //scan.getCaptureActivity(Ca);
         scan.setBeepEnabled(beep);
         scan.setCameraId(camId);
 
@@ -351,27 +318,27 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
 
     }
 
-//    public final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//
-//
-//            Double grandTotalFinal = 0.00;
-//            grandTotalFinal = intent.getDoubleExtra("grandTotalFinal", grandTotalFinal);
-//
-//
-//            Double tsum = 0.00;
-//            for (int i = 0; i < listItems.size(); i++) {
-//                tsum = tsum + grandTotalFinal;
-//            }
-//            Log.d("total pay : ", String.valueOf(tsum));
-//            Toast.makeText(ScanHome.this, grandTotalFinal.toString(), Toast.LENGTH_SHORT).show();
-//
-//            grandTotal.setText(tsum.toString());
-//
-//
-//        }
-//    };
+    public final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+
+            Double grandTotalFinal = 0.00;
+            grandTotalFinal = intent.getDoubleExtra("grandTotalFinal", grandTotalFinal);
+
+
+            Double tsum = 0.00;
+            for (int i = 0; i < listItems.size(); i++) {
+                tsum = tsum + grandTotalFinal;
+            }
+            Log.d("total pay : ", String.valueOf(tsum));
+            Toast.makeText(ScanHome.this, grandTotalFinal.toString(), Toast.LENGTH_SHORT).show();
+
+            grandTotal.setText(grandTotalFinal.toString());
+
+
+        }
+    };
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
