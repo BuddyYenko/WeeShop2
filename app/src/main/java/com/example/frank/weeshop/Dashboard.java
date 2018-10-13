@@ -81,46 +81,6 @@ public class Dashboard extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    //Getting results
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null)
-        {
-            if (result.getContents() == null)
-            {
-                Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                //if qrcode contains data
-                try
-                {
-                    //converting the data to json
-                    JSONObject obj = new JSONObject(result.getContents());
-                    //setting values to textviews
-                    total_sales_int = obj.getString("sales");
 
-
-
-                    Intent mainPage = new Intent(Dashboard.this, CashUp.class);
-                    startActivity(mainPage);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    //if control comes here
-                    //that means the encoded format not matches
-                    //in this case you can display whatever data is available on the qrcode
-                    //to a toast
-                    Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-        else
-        {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
 
 }
