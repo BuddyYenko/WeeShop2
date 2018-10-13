@@ -3,6 +3,7 @@ package com.example.frank.weeshop;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -55,7 +56,8 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     RecyclerView.Adapter adapter;
     ImageView btn_scan;
     String url = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch.php";
-    String product_id;
+    String SALES_URL = "http://sict-iis.nmmu.ac.za/weeshop/app/sales.php";
+    String product_id, userID;
     public static double total = 0;
     public static TextView tv_total;
     public static TextView grandTotal;
@@ -64,6 +66,8 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     public List<Product> listItems;
     //    private BreakIterator txtCount;
     private android.support.v7.widget.Toolbar toolbar;
+    AlertDialog.Builder builder;
+
 
 
     public PopupWindow popupWindow;
@@ -78,6 +82,8 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_home);
+
+        builder = new AlertDialog.Builder(ScanHome.this);
 
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -96,21 +102,10 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         Boolean beep = sharedPref.getBoolean("beep", true);
         Boolean frontCamera = sharedPref.getBoolean("frontCamera", false);
 
-
-
-
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("Total"));
 
-
-//        btn_calculate = findViewById(R.id.calculate);
-//        btn_save = findViewById(R.id.save);
-//        txt_cashUp = findViewById(R.id.pop_grand_total);
-//        txt_difference = findViewById(R.id.pop_difference);
-//        txt_total_sales = findViewById(R.id.pop_cash_paid);
         placeOrder = findViewById(R.id.btn_placeorder);
-
-
         placeOrder.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -119,34 +114,19 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                 AlertDialog.Builder builder = new AlertDialog.Builder(ScanHome.this);
                 View view = getLayoutInflater().inflate(R.layout.popup, null);
 
-                //grandTotal.setText(String.format());
-                //grandTotal.setText();
-                String cash_paid;
 
+                String cash_paid;
 
                 txt_grand_total = view.findViewById(R.id.pop_grand_total);
                 txt_cash_paid = view.findViewById(R.id.pop_cash_paid);
-
-
                 txt_difference = view.findViewById(R.id.pop_difference);
                 btn_calculate = view.findViewById(R.id.calculate);
                 btn_save = view.findViewById(R.id.save);
-
-
-
-
-
                 txt_grand_total.setText(grandTotal.getText());
                 edt_cash_paid = findViewById(R.id.edt_cash_paid);
-                //edt_cash_paid.setText(TextView.BufferType.EDITABLE);
-                //final TextView tv = findViewById(R.id.pop_cash_paid);
 
                 cash_paid = edt_cash_paid.getText().toString();
-
-                 txt_cash_paid.setText((CharSequence) cashPaid);
-                 Double pay = Double.parseDouble(cash_paid);
-                 //tv.setText(pay.toString());
-
+                txt_cash_paid.setText((CharSequence) cashPaid);
                 txt_cash_paid.setText(cash_paid);
 
                 builder.setView(view);
@@ -163,97 +143,70 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                         Double cashPaidTotal;
                         Double difference;
 
-                        //final EditText edt_cash_paid = view1.findViewById(R.id.pop_cash_paid);
-
-
-                        //edt_cash_paid.getText().toString();
-                        //cash_paid = edt_cash_paid.getText().toString();
-                        //final TextView txt_cash_paid = view1.findViewById(R.id.pop_cash_paid_tv);
-
-                        //txt_cash_paid.setText(str1);
-                        //edt_cash_paid.setText();
-                      //  txt_cash_paid.setText(edt_cash_paid.getText());
-
                         sales = String.valueOf(txt_grand_total.getText().toString());
-                        //cash_paid = String.valueOf(txt_cash_paid.getText().toString());
                         cash_paid = String.valueOf(edt_cash_paid.getText().toString());
-
 
                         salesTotal = Double.parseDouble(sales);
                         cashPaidTotal = Double.parseDouble(cash_paid);
-                        difference = salesTotal - cashPaidTotal;
+                        difference = cashPaidTotal - salesTotal;
                         txt_difference.setText(String.format("%.2f", difference));
-
-
 
                     }
 
                 });
 
-//                //Save
-//                btn_save.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                        total_sales = Double.valueOf(txt_total_sales.getText().toString());
-//                        cash = Double.valueOf(txt_cashUp.getText().toString());
-//                        difference = Double.valueOf(txt_difference.getText().toString());
-//
-//
-//                        if (total_sales.equals("") || cash.equals("")) {
-//                            builder.setTitle("Something Went Wrong...");
-//                            builder.setMessage("There was no sales for the day");
-//                            displayAlert("input_error");
-//                        } else {
-//                            StringRequest stringRequest = new StringRequest(Request.Method.POST, CashUp_URL,
-//                                    new Response.Listener<String>() {
-//                                        @Override
-//                                        public void onResponse(String response) {
-//                                            try {
-//                                                JSONArray jsonArray = new JSONArray(response);
-//                                                JSONObject jsonObject = jsonArray.getJSONObject(0);
-//                                                String code = jsonObject.getString("code");
-//                                                String message = jsonObject.getString("message");
-//
-//                                                if(code.equals("cashup_success")){
-//                                                    String userID = jsonObject.getString("user_id");
-//                                                    String userName = jsonObject.getString("user_name");
-//                                                    createSessions(userID, userName);
-//                                                }
+                //Save
+                btn_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Double grandTotal;
+                        grandTotal = Double.parseDouble(txt_grand_total.getText().toString());
+
+                        final Double finalGrandTotal = grandTotal;
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, SALES_URL,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+
+                                            try {
+                                                JSONArray jsonArray = new JSONArray(response);
+                                                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                                String code = jsonObject.getString("code");
+                                                String message = jsonObject.getString("message");
+
+                                                if(code.equals("sales_success")){
+                                                    String userID = jsonObject.getString("user_id");
+                                                    String userName = jsonObject.getString("user_name");
+                                                    createSessions(userID, userName);
+                                                }
 //                                                builder.setTitle("WeeShop Response");
 //                                                builder.setMessage(message);
-//                                                displayAlert(code);
-//                                            } catch (JSONException e) {
-//                                                e.printStackTrace();
-//                                            }
-//                                        }
-//                                    }, new Response.ErrorListener() {
-//                                @Override
-//                                public void onErrorResponse(VolleyError error) {
-//
-//                                }
-//                            }) {
-//                                @Override
-//                                protected Map<String, String> getParams() throws AuthFailureError {
-//                                    Map<String, String> params = new HashMap<String, String>();
-//
-//                                    params.put("total_sales", total_sales.toString());
-//                                    params.put("cash", cash.toString());
-//                                    params.put("difference", difference.toString());
-//                                    //params.put("user_id", userID);
-//
-//                                    return params;
-//                                }
-//                            };
-//                            Singleton.getInstance(CashUp.this).addToRequestQueue(stringRequest);
-//
-//                        }
-//
-//                        txt_total_sales.setText("");
-//                        txt_difference.setText("");
-//                        txt_cashUp.setText("");
-//                    }
-//                });
+                                                displayAlert(code);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                }
+                            }) {
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String, String> params = new HashMap<String, String>();
+
+                                    params.put("finalGrandTotal", finalGrandTotal.toString());
+                                    params.put("user_id", userID);
+
+                                    return params;
+                                }
+                            };
+                            Singleton.getInstance(ScanHome.this).addToRequestQueue(stringRequest);
+
+
+                    }
+                });
 
             }
         });
@@ -300,7 +253,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         scan = new IntentIntegrator(this);
         scan.setOrientationLocked(false);
         //scan.getCaptureActivity(Ca);
-        scan.setBeepEnabled(beep);
+        scan.setBeepEnabled(false);
         scan.setCameraId(camId);
 
         btn_scan = findViewById(R.id.btn_scan);
@@ -310,10 +263,6 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
                 scan.initiateScan();
             }
         });
-
-
-//        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-//                new IntentFilter("Total"));
 
 
     }
@@ -403,10 +352,7 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    //if control comes here
-                    //that means the encoded format not matches
-                    //in this case you can display whatever data is available on the qrcode
-                    //to a toast
+
                     Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -415,24 +361,6 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         }
     }
 
-//    public double calculateTotal(){
-//        int total = 0;
-//        for(Product product: listItems){
-//            total+=  product.getGrandTotal();
-//        }
-//        return total;
-//    }
-
-
-//    private int calculateTotal(List<Product> items){
-//
-//        int grandTotal = 0;
-//        for(int i = 0 ; i < items.size(); i++) {
-//            grandTotal += items.get(i).getTotal();
-//        }
-//
-//        return grandTotal;
-//    }
 
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -455,74 +383,43 @@ public class ScanHome extends AppCompatActivity implements SharedPreferences.OnS
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    public void createSessions(String userID, String userName) {
 
-//    private void callPopup() {
-//
-//        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
-//                .getSystemService(LAYOUT_INFLATER_SERVICE);
-//
-//        View popupView = layoutInflater.inflate(R.layout.popup, null);
-//
-//        final PopupWindow popupWindow = new PopupWindow(popupView,
-//                Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.MATCH_PARENT,
-//                true);
-//        final TextView Name;
-//
-//        popupWindow.setTouchable(true);
-//        popupWindow.setFocusable(true);
-//
-//        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-//        Name = (EditText) popupView.findViewById(R.id.pop_cash_paid);
-//
-//        (popupView.findViewById(R.id.save))
-//                .setOnClickListener(new View.OnClickListener() {
-//
-//                    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-//                    public void onClick(View arg0) {
-//                        Toast.makeText(getApplicationContext(),
-//                                Name.getText().toString(), Toast.LENGTH_LONG).show();
-//
-//                        popupWindow.dismiss();
-//
-//                    }
-//
-//                });
-//        (popupView.findViewById(R.id.save)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Double money  = 0.00;
-////                for (int i = 0; i < list.getCount(); i++) {
-////                    double cashup_value = 0;
-////                    quantity1 = getViewByPosition(i, list).findViewById(R.id.quantity);
-////                    price1 = getViewByPosition(i, list).findViewById(R.id.price);
-////                    edit3 = getViewByPosition(i, list).findViewById(R.id.editText3);
-////                    final CashValueModel cashValueModel = cashValueModelList.get(i);
-////
-////                    if (!quantity1.getText().toString().equals("") && !price1.getText().toString().equals("")) {
-////                        cashup_value = Integer.parseInt(String.valueOf(quantity1.getText())) * Double.parseDouble(String.valueOf(cashValueModel.getCashValue()));
-////                    }
-////                    edit3.setText(String.format("%.2f", cashup_value));
-////                    money += Double.valueOf(edit3.getText().toString());
-////                }
-//
-//                txt_cashUp.setText(String.format("%.2f", money));
-//
-//                //difference = sales - money;
-//                //txt_difference.setText(String.format("%.2f", difference));
-//
-//
-//
-//            }
-//
-//        });
-//
-//        (popupView.findViewById(R.id.calculate))
-//                .setOnClickListener(new View.OnClickListener() {
-//
-//                    public void onClick(View arg0) {
-//
-//                        popupWindow.dismiss();
-//                    }
-//                });
-//    }
+        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+
+        String userIDSession = preferences.getString(userID + "data", userID);
+        String userNameSession = preferences.getString(userName + "data", userName);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("user_id", userIDSession);
+        editor.putString("user_name", userNameSession);
+
+        editor.commit();
+
+    }
+    public void displayAlert(final String code) {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (code.equals("input_error")) {
+                    //Password.setText("");
+                }
+
+                else if (code.equals("cashup_failed")) {
+                    //Password.setText("");
+                }
+                else if (code.equals("cashup_success")) {
+                    //Password.setText("");
+                    //Email.setText("");
+                    Intent home = new Intent(ScanHome.this, ScanHome.class);
+                    startActivity(home);
+                }
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }

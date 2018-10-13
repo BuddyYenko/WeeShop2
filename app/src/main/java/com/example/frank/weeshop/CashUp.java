@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +24,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,8 +49,12 @@ public class CashUp extends AppCompatActivity {
 
     AlertDialog.Builder builder;
     String CashUp_URL = "http://sict-iis.nmmu.ac.za/weeshop/app/cash_up.php";
+    String FETCH_TOTAL_SALES = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch_grand_total.php";
     Date cashup_date = new Date();
-    Double total_sales, cash, difference;
+    Double total_sales;
+    String total_sales_int;
+    Double cash;
+    Double difference;
     private android.support.v7.widget.Toolbar toolbar;
 
 
@@ -87,6 +94,43 @@ public class CashUp extends AppCompatActivity {
         list.setAdapter(adapter);
 
         txt_total_sales.setText(String.format("%.2f", sales));
+
+
+
+        //Sales From Database
+         StringRequest stringRequest = new StringRequest(Request.Method.POST, FETCH_TOTAL_SALES,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                            txt_total_sales.setText(jsonObject.getString("sales"));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("sales", sales.toString());
+
+                return params;
+            }
+        };
+        MySingleton.getInstance(CashUp.this).addToRequestque(stringRequest);
+        txt_total_sales.setText(sales.toString());
+
+
 
         btn_calculate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,6 +298,8 @@ public class CashUp extends AppCompatActivity {
         editor.commit();
 
     }
+
+
 
 
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".CashUp">
 
     <include
@@ -10,6 +11,9 @@
         layout="@layout/toolbar"/>
 
     <ListView
+        android:textColor="@android:color/white"
+
+        android:layout_above="@+id/layout_sales"
         android:layout_below="@+id/tool_bar"
         android:id="@+id/listView"
         android:layout_width="match_parent"
@@ -32,7 +36,10 @@
         android:layout_above="@+id/layout_total"
         android:weightSum="2">
 
-        <TextView android:gravity="end"
+        <TextView
+            android:textColor="@android:color/white"
+
+            android:gravity="end"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Total Sales : R "
@@ -40,6 +47,8 @@
         </TextView>
 
         <TextView
+            android:textColor="@android:color/white"
+
             android:id="@+id/total_sales"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -56,7 +65,10 @@
         android:layout_above="@+id/layout_difference"
         android:weightSum="2">
 
-        <TextView android:gravity="end"
+        <TextView
+            android:textColor="@android:color/white"
+
+            android:gravity="end"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Cash Up Total : R "
@@ -64,6 +76,8 @@
         </TextView>
 
         <TextView
+            android:textColor="@android:color/white"
+
             android:id="@+id/grand_total"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -80,7 +94,10 @@
         android:layout_above="@+id/linear"
         android:weightSum="2">
 
-        <TextView android:gravity="end"
+        <TextView
+            android:textColor="@android:color/white"
+
+            android:gravity="end"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Difference : R "
@@ -88,6 +105,8 @@
         </TextView>
 
         <TextView
+            android:textColor="@android:color/white"
+
             android:id="@+id/difference"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -110,6 +129,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
             android:layout_weight="0.5"
+            android:background="#8A2BE2"
+            android:textColor="@android:color/white"
             android:text="Calculate" />
 
         <Button
@@ -117,6 +138,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:background="#8A2BE2"
+            android:textColor="@android:color/white"
             android:text="Cash Up"
             />
     </LinearLayout>

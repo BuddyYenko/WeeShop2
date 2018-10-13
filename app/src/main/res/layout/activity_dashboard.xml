@@ -12,7 +12,7 @@
 
     <include
         android:id="@+id/tool_bar"
-        layout="@layout/toolbar"></include>
+        layout="@layout/toolbar"/>
 
 
 
@@ -50,18 +50,7 @@
                     android:textStyle="bold"
                     android:layout_marginTop="10dp"
                     android:text="Return"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgray"
-                    android:layout_margin="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Return Product/s"
-                    android:padding="5dp"
-                    android:textColor="@android:color/darker_gray"/>
+
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -90,18 +79,7 @@
                     android:textStyle="bold"
                     android:layout_marginTop="10dp"
                     android:text="Cash Up"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgray"
-                    android:layout_margin="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Cash up dialy trensaction"
-                    android:padding="5dp"
-                    android:textColor="@android:color/darker_gray"/>
+
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -142,28 +120,17 @@
                     android:layout_height="64dp"
                     android:background="@drawable/cerclebackgroundpurple"
                     android:padding="10dp"
-                    android:src="@drawable/qrcode" />
+                    android:src="@drawable/sales"
+
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Scan Product"
+                    android:text="New Sales"
                     android:textStyle="bold" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="10dp"
-                    android:background="@color/lightgray" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Start scanning product"
-                    android:textColor="@android:color/darker_gray" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
@@ -21,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +38,7 @@ public class ReturnHome extends AppCompatActivity{
     ImageView btn_scan;
     EditText txt_product_id, txt_name, txt_quantity, txt_message;
     String userID, productID, productName, quantity, message;
+    public String product_id, user_id;
 
     private RequestQueue queue;
     private android.support.v7.widget.Toolbar toolbar;
@@ -274,5 +277,54 @@ public class ReturnHome extends AppCompatActivity{
 
         editor.commit();
 
+    }
+
+    //Getting results
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null)
+        {
+            if (result.getContents() == null)
+            {
+                Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                //if qrcode contains data
+                try
+                {
+                    //converting the data to json
+                    JSONObject obj = new JSONObject(result.getContents());
+                    //setting values to textviews
+                    product_id = obj.getString("product_id");
+
+                    //session
+                    SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+
+                    String regNoSession = preferences.getString(product_id + "data", product_id);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("product_id", regNoSession);
+                    //editor.putString("user_id", user_id);
+                    editor.commit();
+
+                    Intent mainPage = new Intent(ReturnHome.this, ReturnHome.class);
+                    startActivity(mainPage);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    //if control comes here
+                    //that means the encoded format not matches
+                    //in this case you can display whatever data is available on the qrcode
+                    //to a toast
+                    Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        else
+        {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

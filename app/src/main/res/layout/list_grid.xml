@@ -13,11 +13,11 @@
         android:orientation="horizontal"
         android:weightSum="3">
         <EditText
+            android:textColor="@android:color/white"
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#DCC6E0"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
@@ -26,11 +26,11 @@
             android:descendantFocusability="beforeDescendants"
             android:focusable="false"/>
         <EditText
+            android:textColor="@android:color/white"
             android:id="@+id/quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#DCC6E0"
             android:inputType="number"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
@@ -41,16 +41,16 @@
             android:focusable="true"/>
 
         <EditText
+            android:textColor="@android:color/white"
             android:id="@+id/editText3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#87D37C"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:hint="Total"
             android:inputType="number"
             android:descendantFocusability="beforeDescendants"
-            android:focusable="true"/>
+            android:focusable="false"/>
     </LinearLayout>
 </LinearLayout>
