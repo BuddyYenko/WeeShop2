@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,10 +41,11 @@ import java.util.Map;
 public class CashUp extends AppCompatActivity {
 
     String[] result = {""};
+    CashUpAdapter cashUpAdapter;
+
     EditText quantity, price, editText2, quantity1, price1, edit3;
     Button btn_calculate, btn_cashUp;
     private List<CashValueModel> cashValueModelList;
-    private CashUpAdapter cashUpAdapter;
     TextView txt_cashUp, txt_total_sales, txt_difference;
     Double money = 0.00, diff =0.00, sales = 0.00;
 
@@ -63,6 +65,11 @@ public class CashUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_up);
+
+//        final ListView listView = findViewById(R.id.listView);
+//        List<String> prod_list = new ArrayList<String>(Arrays.asList(result));
+//
+        //cashUpAdapter = new CashUpAdapter<Integer>(getApplicationContext(),R.layout.list_grid, result);
 
         builder = new AlertDialog.Builder(CashUp.this);
         toolbar = findViewById(R.id.tool_bar);
