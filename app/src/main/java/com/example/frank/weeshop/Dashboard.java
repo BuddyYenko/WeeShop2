@@ -61,7 +61,7 @@ public class Dashboard extends AppCompatActivity {
         dash_returns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent returns = new Intent(Dashboard.this, Returns.class);
+                Intent returns = new Intent(Dashboard.this, ReturnHome.class);
                 startActivity(returns);
             }
         });

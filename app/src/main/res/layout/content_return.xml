@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/background"
+    android:layout_height="match_parent"
+    android:layout_width="wrap_content">
+
+    <include
+
+        android:id="@+id/tool_bar"
+        layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:gravity="end"
+        android:layout_below="@+id/tool_bar"
+        android:id="@+id/layout_total_sales"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:weightSum="2">
+        <TextView
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Total Returns: R "
+            android:textColor="@android:color/white"
+            android:textSize="20sp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/grand_total"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="20sp">
+        </TextView>
+    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:gravity="end"-->
+        <!--android:layout_below="@+id/layout_total_sales"-->
+        <!--android:id="@+id/layout_cash_paid"-->
+        <!--android:weightSum="2"-->
+        <!--android:padding="5dp"-->
+
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<TextView-->
+            <!--android:gravity="end"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Cash Paid : R "-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="20sp">-->
+        <!--</TextView>-->
+
+
+        <!--<EditText-->
+            <!--android:background="@color/backgroundcolor"-->
+            <!--android:id="@+id/edt_cash_paid"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:inputType="number" />-->
+
+
+
+    <!--</LinearLayout>-->
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_above="@+id/btn_placeorder"
+        android:layout_below="@+id/layout_total_sales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_comment"
+        android:layout_below="@id/recyclerView"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:text="Comment:"/>
+
+    <EditText
+        android:layout_margin="2dp"
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:overScrollMode="always"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:lines="5"
+        android:layout_below="@+id/tv_comment"
+        android:background="@drawable/textarea"
+        android:scrollHorizontally="false" />
+</RelativeLayout>

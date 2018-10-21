@@ -1,9 +1,10 @@
 package com.example.frank.weeshop;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Product implements Serializable{
-        public String product_id;
+        public String product_id, sales_id;
         public String name;
         public double price;
         public String quantity;
@@ -20,9 +21,15 @@ public class Product implements Serializable{
         this.custQuantity = custQuantity;
     }
 
+    public Product(String sales_id, String product_id, String name, double price, String quantity) {
+        this.product_id = product_id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.sales_id = sales_id;
+    }
 
-
-        public String getProduct_id() {
+    public String getProduct_id() {
             return product_id;
         }
 
@@ -70,6 +77,9 @@ public class Product implements Serializable{
         }
         public void setGrandTotal(double grandTotal) {
         grandTotal = grandTotal;
+    }
+    public void setSalesId(String sales_id) {
+        sales_id = sales_id;
     }
 
 

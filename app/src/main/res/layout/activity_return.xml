@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinate"
+    tools:context=".ReturnActivity">
+
+
+
+    <include layout="@layout/content_return" />
+
+    <Button
+        android:id="@+id/btn_return"
+        android:layout_width="174dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:background="#8A2BE2"
+        android:text="Submit"
+        android:textColor="@android:color/white"
+        android:theme="@style/Theme.MaterialButton" />
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="7">-->
+        <!--<TextView-->
+
+            <!--android:id="@+id/tv_name"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"-->
+            <!--android:textIsSelectable="true"-->
+            <!--android:textSize="20sp"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:text="Name" />-->
+        <!--<TextView-->
+
+            <!--android:id="@+id/tv_price"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"-->
+            <!--android:textIsSelectable="true"-->
+            <!--android:textSize="20sp"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:text="Price" />-->
+        <!--<TextView-->
+
+            <!--android:id="@+id/tv_qty"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"-->
+            <!--android:textIsSelectable="true"-->
+            <!--android:textSize="20sp"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:text="Sale Qty" />-->
+        <!--<TextView-->
+
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"-->
+            <!--android:textIsSelectable="true"-->
+            <!--android:textSize="20sp"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:text="Return Qty" />-->
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/decrease"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="64dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="64dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@drawable/minus"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:padding="10dp"/>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+
+            <!--&lt;!&ndash;android:id="@+id/return_qty"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="20dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginTop="16dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textIsSelectable="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="20sp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+            <!--&lt;!&ndash;tools:text="0" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/increase"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="64dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="64dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@drawable/plus"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginStart="1dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:padding="10dp"/>&ndash;&gt;-->
+
+        <!--<TextView-->
+
+            <!--android:id="@+id/tv_total"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"-->
+            <!--android:textIsSelectable="true"-->
+            <!--android:textSize="20sp"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:text="Total" />-->
+        <!--<TextView-->
+
+            <!--android:id="@+id/tv_qoh"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"-->
+            <!--android:textIsSelectable="true"-->
+            <!--android:textSize="20sp"-->
+            <!--android:visibility="invisible"-->
+
+            <!--/>-->
+
+    <!--</LinearLayout>-->

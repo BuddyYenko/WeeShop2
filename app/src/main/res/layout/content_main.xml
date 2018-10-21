@@ -73,7 +73,7 @@
         android:layout_above="@+id/btn_placeorder"
         android:layout_below="@+id/layout_cash_paid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
 
