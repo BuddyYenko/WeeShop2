@@ -5,11 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -19,9 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Dashboard extends AppCompatActivity {
-    CardView scanPage, cashUp, return_product;
-    private Toolbar toolbar;
 
+    private Toolbar toolbar;
+    LinearLayout dash_sales, dash_returns, dash_cash;
     Double total_sales;
     String total_sales_int;
 
@@ -33,12 +38,11 @@ public class Dashboard extends AppCompatActivity {
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
-        scanPage = findViewById(R.id.scanPage);
-        cashUp = findViewById(R.id.cashUp);
-        return_product = findViewById(R.id.return_product);
+        dash_cash = findViewById(R.id.dash_cash_up);
+        dash_sales = findViewById(R.id.dash_sales);
+        dash_returns = findViewById(R.id.dash_return);
 
-
-        scanPage.setOnClickListener(new View.OnClickListener() {
+        dash_sales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent scan = new Intent(Dashboard.this, ScanHome.class);
@@ -46,7 +50,7 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        cashUp.setOnClickListener(new View.OnClickListener() {
+        dash_cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent cash = new Intent(Dashboard.this, CashUp.class);
@@ -54,7 +58,7 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        return_product.setOnClickListener(new View.OnClickListener() {
+        dash_returns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent returns = new Intent(Dashboard.this, Returns.class);

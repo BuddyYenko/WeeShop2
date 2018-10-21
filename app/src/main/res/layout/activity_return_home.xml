@@ -13,22 +13,6 @@
         layout="@layout/toolbar"
         ></include>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/view_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/logo" />
-
-    </LinearLayout>
 
 
     <LinearLayout
@@ -41,7 +25,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Returns"
+            android:text="Return(s)"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -50,6 +34,7 @@
 
             <TextView
             android:id="@+id/textView2"
+                android:textSize="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/textView"

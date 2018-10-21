@@ -23,7 +23,7 @@
             android:id="@+id/logo"
             android:layout_width="157dp"
             android:layout_height="106dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="30dp"
             android:layout_gravity="center"
             android:src="@drawable/logo" />
 
@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:fontFamily="casual"
             android:textColor="#F7F9F9"
-            android:text="Hi There\nStart Scanning to\nInsert Returns"
+            android:text="Scan Return Product \n QR Code"
             android:textAlignment="center"
             android:textSize="30dp"
             android:textStyle="bold" />
@@ -61,7 +61,7 @@
             android:layout_gravity="center"
             android:fontFamily="casual"
             android:textColor="#F7F9F9"
-            android:text="Scan Product QR Code\n Insert Product To The System"
+            android:text="Save Product To The System"
             android:textAlignment="center"
             android:textSize="17dp"
             android:textStyle="bold"/>

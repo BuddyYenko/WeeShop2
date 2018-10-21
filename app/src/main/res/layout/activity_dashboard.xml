@@ -1,271 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".Dashboard"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background"
-    android:id="@+id/ll">
-
-
+    tools:context=".Dashboard">
     <include
         android:id="@+id/tool_bar"
         layout="@layout/toolbar"/>
 
-
-    <!--<LinearLayout-->
-        <!--android:layout_weight="1"-->
-        <!--android:clipToPadding="false"-->
-        <!--android:gravity="center"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<android.support.v7.widget.CardView-->
-            <!--android:foreground="?android:attr/selectableItemBackground"-->
-            <!--android:clickable="true"-->
-            <!--android:id="@+id/return_product"-->
-            <!--android:layout_width="160dp"-->
-            <!--android:layout_height="190dp"-->
-            <!--android:layout_margin="10dp">-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:gravity="center"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="100dp"-->
-                    <!--android:layout_height="100dp"-->
-                    <!--android:background="@drawable/cerclebackgroundpurple"-->
-                    <!--android:padding="10dp"-->
-                    <!--android:src="@drawable/returns" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:text="Return"-->
-                    <!--android:textSize="25dp"-->
-                    <!--android:textStyle="bold" />-->
-
-
-            <!--</LinearLayout>-->
-        <!--</android.support.v7.widget.CardView>-->
-
-        <!--<android.support.v7.widget.CardView-->
-            <!--android:foreground="?android:attr/selectableItemBackground"-->
-            <!--android:clickable="true"-->
-            <!--android:id="@+id/cashUp"-->
-            <!--android:layout_width="160dp"-->
-            <!--android:layout_height="190dp"-->
-            <!--android:layout_margin="10dp">-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical"-->
-                <!--android:gravity="center">-->
-                <!--<ImageView-->
-                    <!--android:layout_width="100dp"-->
-                    <!--android:layout_height="100dp"-->
-                    <!--android:background="@drawable/cerclebackgroundpurple"-->
-                    <!--android:src="@drawable/rands"-->
-                    <!--android:padding="10dp"/>-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:textSize="25dp"-->
-                    <!--android:text="Cash Up"/>-->
-
-
-            <!--</LinearLayout>-->
-        <!--</android.support.v7.widget.CardView>-->
-
-    <!--</LinearLayout>-->
-
-    <android.support.v7.widget.CardView
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:id="@+id/return_product1"
-        android:layout_width="160dp"
-        android:layout_height="190dp"
-        android:layout_margin="10dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="100dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo" />
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/cerclebackgroundpurple"
-                android:padding="10dp"
-                android:src="@drawable/returns" />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Return"
-                android:textSize="25dp"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:weightSum="3"
+                >
+                <LinearLayout
+                    android:clickable="true"
+                    android:id="@+id/dash_sales"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:orientation="vertical"
+                    android:background="@color/deeppurple"
+                    >
+                    <ImageView
+                        android:id="@+id/sales_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/sales"
+                        android:tint="@color/backgroundcolor"
+                        />
+                    <TextView
+                        android:id="@+id/sales_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="22dp"
+                        android:text="Sales"
+                        android:textSize="30dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/backgroundcolor"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:clickable="true"
+                    android:id="@+id/dash_cash_up"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:orientation="vertical"
+                    android:background="@color/deeppurple"
+                    >
+                    <ImageView
+                        android:id="@+id/cash_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/rands"
+                        android:tint="@color/backgroundcolor"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="22dp"
+                        android:text="Cash Up"
+                        android:textSize="30dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/backgroundcolor"
+
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:clickable="true"
+                    android:id="@+id/dash_return"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:orientation="vertical"
+                    android:background="@color/deeppurple"
+                    >
+                    <ImageView
+                        android:id="@+id/return_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/returns"
+                        android:tint="@color/backgroundcolor"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="22dp"
+                        android:text="Returns"
+                        android:textSize="30dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/backgroundcolor"
+                        />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
 
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:id="@+id/return_product"
-        android:layout_width="161dp"
-        android:layout_height="190dp"
-        android:layout_margin="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/cerclebackgroundpurple"
-                android:padding="10dp"
-                android:src="@drawable/returns" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Return"
-                android:textSize="25dp"
-                android:textStyle="bold" />
 
 
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:id="@+id/cashUp"
-        android:layout_width="160dp"
-        android:layout_height="190dp"
-        android:layout_margin="10dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/cerclebackgroundpurple"
-                android:src="@drawable/rands"
-                android:padding="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:textSize="25dp"
-                android:text="Cash Up"/>
-
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-
-    <!--<android.support.v7.widget.CardView-->
-        <!--android:id="@+id/scanPage"-->
-        <!--android:layout_width="340dp"-->
-        <!--android:layout_height="150dp"-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:clickable="true"-->
-        <!--android:foreground="?android:attr/selectableItemBackground">-->
-
-        <!--<LinearLayout-->
-
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="169dp"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:background="@drawable/cerclebackgroundpurple"-->
-                <!--android:padding="10dp"-->
-                <!--android:src="@drawable/sales"-->
-
-                <!--/>-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:text="New Sales"-->
-                <!--android:textSize="25dp"-->
-                <!--android:textStyle="bold" />-->
-
-
-        <!--</LinearLayout>-->
-    <!--</android.support.v7.widget.CardView>-->
-
-    <!--<LinearLayout-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:clipToPadding="false"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<android.support.v7.widget.CardView-->
-            <!--android:id="@+id/scanPage"-->
-            <!--android:layout_width="340dp"-->
-            <!--android:layout_height="150dp"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:clickable="true"-->
-            <!--android:foreground="?android:attr/selectableItemBackground">-->
-
-            <!--<LinearLayout-->
-
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="169dp"-->
-                <!--android:gravity="center"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="100dp"-->
-                    <!--android:layout_height="100dp"-->
-                    <!--android:background="@drawable/cerclebackgroundpurple"-->
-                    <!--android:padding="10dp"-->
-                    <!--android:src="@drawable/sales"-->
-
-                    <!--/>-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:text="New Sales"-->
-                    <!--android:textSize="25dp"-->
-                    <!--android:textStyle="bold" />-->
-
-
-            <!--</LinearLayout>-->
-        <!--</android.support.v7.widget.CardView>-->
-
-
-    <!--</LinearLayout>-->
 
 
 </LinearLayout>
