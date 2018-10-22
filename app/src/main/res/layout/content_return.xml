@@ -35,37 +35,6 @@
             android:textSize="20sp">
         </TextView>
     </LinearLayout>
-    <!--<LinearLayout-->
-        <!--android:gravity="end"-->
-        <!--android:layout_below="@+id/layout_total_sales"-->
-        <!--android:id="@+id/layout_cash_paid"-->
-        <!--android:weightSum="2"-->
-        <!--android:padding="5dp"-->
-
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-
-        <!--<TextView-->
-            <!--android:gravity="end"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:text="Cash Paid : R "-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="20sp">-->
-        <!--</TextView>-->
-
-
-        <!--<EditText-->
-            <!--android:background="@color/backgroundcolor"-->
-            <!--android:id="@+id/edt_cash_paid"-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:inputType="number" />-->
-
-
-
-    <!--</LinearLayout>-->
-
 
 
     <android.support.v7.widget.RecyclerView
@@ -97,7 +66,21 @@
         android:scrollbarStyle="insideInset"
         android:scrollbars="vertical"
         android:lines="5"
+        android:textColor="@android:color/white"
         android:layout_below="@+id/tv_comment"
         android:background="@drawable/textarea"
         android:scrollHorizontally="false" />
+
+    <Button
+        android:id="@+id/btn_return"
+        android:layout_width="174dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/comment"
+        android:layout_alignEnd="@+id/comment"
+        android:layout_gravity="bottom|end"
+        android:layout_marginTop="79dp"
+        android:background="#8A2BE2"
+        android:text="Submit"
+        android:textColor="@android:color/white"
+        android:theme="@style/Theme.MaterialButton" />
 </RelativeLayout>
