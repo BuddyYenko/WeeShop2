@@ -106,15 +106,31 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
             android:layout_weight="0.5"
-            android:text="Calculate" />
+            android:text="Calculate"
+            android:background="@color/deeppurple"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@android:color/white"
+            android:theme="@style/Theme.MaterialButton"
+            />
 
         <Button
             android:id="@+id/save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Save"
+            android:text="Submit"
+            android:background="@color/deeppurple"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@android:color/white"
+            android:theme="@style/Theme.MaterialButton"
             />
+
     </LinearLayout>
 
 </RelativeLayout>

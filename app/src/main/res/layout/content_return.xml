@@ -71,16 +71,27 @@
         android:background="@drawable/textarea"
         android:scrollHorizontally="false" />
 
-    <Button
-        android:id="@+id/btn_return"
-        android:layout_width="174dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/comment"
-        android:layout_alignEnd="@+id/comment"
-        android:layout_gravity="bottom|end"
-        android:layout_marginTop="79dp"
-        android:background="#8A2BE2"
-        android:text="Submit"
-        android:textColor="@android:color/white"
-        android:theme="@style/Theme.MaterialButton" />
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btn_return"
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/deeppurple"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:theme="@style/Theme.MaterialButton" />
+
+
+    </LinearLayout>
 </RelativeLayout>

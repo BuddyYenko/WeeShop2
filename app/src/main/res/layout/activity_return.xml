@@ -6,53 +6,6 @@
     android:id="@+id/coordinate"
     tools:context=".ReturnActivity">
 
-
-
-
-
     <include layout="@layout/content_return" />
-
-
-
-    <!--<TextView-->
-
-
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/tv_comment"-->
-        <!--android:layout_below="@id/recyclerView"-->
-        <!--android:textSize="20sp"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--android:text="Comment:"/>-->
-
-    <!--<EditText-->
-        <!--android:layout_margin="2dp"-->
-        <!--android:id="@+id/comment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="top|left"-->
-        <!--android:inputType="textMultiLine"-->
-        <!--android:overScrollMode="always"-->
-        <!--android:scrollbarStyle="insideInset"-->
-        <!--android:scrollbars="vertical"-->
-        <!--android:lines="5"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--android:layout_below="@+id/tv_comment"-->
-        <!--android:background="@drawable/textarea"-->
-        <!--android:scrollHorizontally="false" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/btn_return"-->
-        <!--android:layout_width="174dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:background="#8A2BE2"-->
-        <!--android:text="Submit"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--android:theme="@style/Theme.MaterialButton" />-->
-
-
-
 
 </android.support.design.widget.CoordinatorLayout>

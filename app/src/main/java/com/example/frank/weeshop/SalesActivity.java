@@ -122,7 +122,11 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
                 int listSize = mylista.size();
+
 
                 try {
                     //lista product_id
@@ -192,7 +196,8 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                 }
                 catch (JSONException ex) {
                     ex.printStackTrace();
-                }            }
+                }
+            }
         });
     }
 
