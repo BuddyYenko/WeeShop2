@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinate"
+    tools:context=".SalesActivity">
+
+
+
+    <include layout="@layout/content_main" />
+
+    <Button
+        android:id="@+id/btn_placeorder"
+        android:layout_width="174dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:background="#8A2BE2"
+        android:text="Place Order"
+        android:textColor="@android:color/white"
+        android:theme="@style/Theme.MaterialButton" />
+
+
+    <ImageView
+        android:id="@+id/btn_scan"
+        android:layout_width="111dp"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/qrcode"
+        />
+
+
+</android.support.design.widget.CoordinatorLayout>

@@ -45,7 +45,7 @@ public class Dashboard extends AppCompatActivity {
         dash_sales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent scan = new Intent(Dashboard.this, ScanHome.class);
+                Intent scan = new Intent(Dashboard.this, SalesActivity.class);
                 startActivity(scan);
             }
         });

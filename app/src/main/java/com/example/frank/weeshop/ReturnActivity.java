@@ -37,7 +37,7 @@ public class ReturnActivity extends AppCompatActivity {
     String FETCH_URL = "http://sict-iis.nmmu.ac.za/weeshop/app/sales_product.php";
     String RETURN_URL = "http://sict-iis.nmmu.ac.za/weeshop/app/returns.php";
 
-    String sales_id, comment;
+    String sales_id, user_id, comment;
     private List<Product> list;
     private RecyclerView recyclerView;
     private ReturnAdapter aAdapter;
@@ -48,7 +48,6 @@ public class ReturnActivity extends AppCompatActivity {
     Button submit;
     ArrayList<String> mylista = new ArrayList<String>();
     ArrayList<String> mylistb = new ArrayList<String>();
-    Map<String,String> myMap = new HashMap<String,String>();
 
 
     @Override
@@ -160,23 +159,18 @@ public class ReturnActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-                            JSONObject jsonObject = jsonArray.getJSONObject(0);
-                            //txt_product_id.setText(jsonObject.getString("product_id"));
-                            //txt_name.setText(jsonObject.getString("name"));
-                            // txt_quantity.setText(jsonObject.getString("quantity"));
                             for (int i = 0; i < jsonArray.length(); i++) {
-
                                 //getting request object from json array
                                 JSONObject request = jsonArray.getJSONObject(i);
 
-                                //adding the request to request list_open
-
+                                //adding the sales products to list
                                 list.add(new Product(
                                         request.getString("sales_id"),
                                         request.getString("product_id"),
                                         request.getString("name"),
                                         request.getDouble("price"),
                                         request.getString("quantity")
+
                                 ));
                             }
                             ReturnAdapter adapter = new ReturnAdapter(ReturnActivity.this, list, ReturnActivity.this);
@@ -248,10 +242,7 @@ public class ReturnActivity extends AppCompatActivity {
             }
 
 
-            for (Map.Entry<String, String> entry : myMap.entrySet()) {
-                System.out.println(entry.getKey() + " - " + entry.getValue());
-                Toast.makeText(context, entry.getValue(), Toast.LENGTH_SHORT).show();
-            }
+
         }
     };
 
@@ -260,11 +251,6 @@ public class ReturnActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-
-//                if (code.equals("return_failed")) {
-//                    et_comment.setText("");
-//                }
-//                else
                 if (code.equals("return_success")) {
                     et_comment.setText("");
                     Intent scannerPage = new Intent(ReturnActivity.this, Dashboard.class);

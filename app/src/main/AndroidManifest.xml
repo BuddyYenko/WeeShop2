@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Dashboard"
+            android:name=".Login"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation">
@@ -29,9 +29,10 @@
         <activity android:name=".Returns" />
         <activity android:name=".CashUp" />
         <activity android:name=".ScanHome" />
-        <activity android:name=".Login" />
+        <activity android:name=".Dashboard" />
         <activity android:name=".ReturnHome" />
-        <activity android:name=".ReturnActivity"></activity>
+        <activity android:name=".ReturnActivity" />
+        <activity android:name=".SalesActivity"></activity>
     </application>
 
 </manifest>

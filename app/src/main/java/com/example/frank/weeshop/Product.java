@@ -20,7 +20,12 @@ public class Product implements Serializable{
         this.quantity = quantity;
         this.custQuantity = custQuantity;
     }
-
+    public Product(String product_id, String name, double price, String quantity) {
+        this.product_id = product_id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
     public Product(String sales_id, String product_id, String name, double price, String quantity) {
         this.product_id = product_id;
         this.name = name;
