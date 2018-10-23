@@ -54,7 +54,7 @@ public class CashUp extends AppCompatActivity {
     String FETCH_TOTAL_SALES = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch_grand_total.php";
     Date cashup_date = new Date();
     Double total_sales;
-    String total_sales_int;
+    String total_sales_int, user_id;
     Double cash;
     Double difference;
     private android.support.v7.widget.Toolbar toolbar;
@@ -70,7 +70,12 @@ public class CashUp extends AppCompatActivity {
 //        List<String> prod_list = new ArrayList<String>(Arrays.asList(result));
 //
         //cashUpAdapter = new CashUpAdapter<Integer>(getApplicationContext(),R.layout.list_grid, result);
+        //********************************************
+        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
 
+        user_id = preferences.getString("user_id", "");
+
+        //********************************************
         builder = new AlertDialog.Builder(CashUp.this);
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -113,7 +118,9 @@ public class CashUp extends AppCompatActivity {
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
 
-                            txt_total_sales.setText(jsonObject.getString("sales"));
+                            txt_total_sales.setText(String.format("%.2f", jsonObject.getDouble("sales")));
+                            Double dBsales = jsonObject.getDouble("sales");
+                            setSales(dBsales);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -135,7 +142,7 @@ public class CashUp extends AppCompatActivity {
             }
         };
         MySingleton.getInstance(CashUp.this).addToRequestque(stringRequest);
-        txt_total_sales.setText(sales.toString());
+        txt_total_sales.setText(String.format("%.2f",sales));
 
 
 
@@ -194,11 +201,11 @@ public class CashUp extends AppCompatActivity {
                                         String code = jsonObject.getString("code");
                                         String message = jsonObject.getString("message");
 
-                                        if(code.equals("cashup_success")){
-                                            String userID = jsonObject.getString("user_id");
-                                            String userName = jsonObject.getString("user_name");
-                                            createSessions(userID, userName);
-                                        }
+//                                        if(code.equals("cashup_success")){
+//                                            String userID = jsonObject.getString("user_id");
+//                                            String userName = jsonObject.getString("user_name");
+//                                            createSessions(userID, userName);
+//                                        }
                                         builder.setTitle("WeeShop Response");
                                         builder.setMessage(message);
                                         displayAlert(code);
@@ -216,10 +223,10 @@ public class CashUp extends AppCompatActivity {
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String, String> params = new HashMap<String, String>();
 
-                            params.put("total_sales", total_sales.toString());
+                            params.put("total_sales", sales.toString());
                             params.put("cash", cash.toString());
                             params.put("difference", difference.toString());
-                            //params.put("user_id", userID);
+                            params.put("user_id", user_id);
 
                             return params;
                         }
@@ -233,6 +240,10 @@ public class CashUp extends AppCompatActivity {
                 txt_cashUp.setText("");
             }
         });
+    }
+
+    private void setSales(Double dBsales) {
+        sales =dBsales;
     }
 
     private void populateNote() {
