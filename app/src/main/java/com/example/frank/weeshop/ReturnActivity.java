@@ -117,7 +117,7 @@ public class ReturnActivity extends AppCompatActivity {
                                         String code = jsonObject.getString("code");
                                         String message = jsonObject.getString("message");
 
-                                        builder.setTitle("WeeShop Response");
+                                        builder.setTitle("WeeShop");
                                         builder.setMessage(message);
                                         displayAlert(code);
 //
@@ -256,11 +256,18 @@ public class ReturnActivity extends AppCompatActivity {
                     Intent scannerPage = new Intent(ReturnActivity.this, Dashboard.class);
                     startActivity(scannerPage);
                 }
+                else if (code.equals("return_failed")) {
+                    et_comment.setText("");
+                }
             }
         });
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        //for negative side button
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.deeppurple));
+        //for positive side button
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.deeppurple));
     }
 
 }

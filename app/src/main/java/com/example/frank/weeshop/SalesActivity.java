@@ -1,5 +1,6 @@
 package com.example.frank.weeshop;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,7 +48,7 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
     private RecyclerView recyclerView;
     private ReturnAdapter aAdapter;
     AlertDialog.Builder builder;
-    Double grandTotal = 0.00;
+    Double grandTotal = 0.00, difference = 0.00, cash_paid = 0.00;
     TextView tv_grandTotal;
     Button submit;
     ArrayList<String> mylista = new ArrayList<String>();
@@ -60,12 +61,22 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
     EditText edt_cash_paid;
     Button btn_calculate, btn_save;
     Button placeOrder;
+
+
+    //OnMyDialogResult mDialogResult; // the callback
+    String name;
+    private static String strEditText = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales);
 
         builder = new AlertDialog.Builder(SalesActivity.this);
+
+
+        //builder.setMessage(getArguments().getString("msg"));//get Mesg here
 
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -157,6 +168,9 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                     }
 
 
+                    final String res = edt_cash_paid.getText().toString();
+                    difference = Double.parseDouble(res) - grandTotal;
+
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, SALES_URL,
                             new Response.Listener<String>() {
@@ -168,10 +182,10 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                                         String code = jsonObject.getString("code");
                                         String message = jsonObject.getString("message");
 
-                                        builder.setTitle("WeeShop Response");
-                                        builder.setMessage(message);
+                                        builder.setTitle("WeeShop");
+                                        builder.setMessage(message + "\n\nCustomer Change : " + String.valueOf(difference).toString());
                                         displayAlert(code);
-//
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -197,24 +211,35 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                 catch (JSONException ex) {
                     ex.printStackTrace();
                 }
+
+
             }
         });
     }
+
 
     private void displayAlert(final String code) {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if (code.equals("sale_success")) {
+                if (code.equals("sales_success")) {
                     Intent scannerPage = new Intent(SalesActivity.this, Dashboard.class);
                     startActivity(scannerPage);
+                }
+                else if (code.equals("sales_failed")) {
+
                 }
             }
         });
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
+        //for negative side button
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.deeppurple));
+        //for positive side button
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.deeppurple));
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -309,6 +334,9 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
         mylistb.add(sales_qty);
         tv_grandTotal.setText(String.valueOf(grandTotal));
 
+
+
+
     }
 
     @Override
@@ -368,9 +396,6 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                 mylista.add(product_id);
                 mylistb.add(sale_qty);
             }
-
-
-
         }
     };
 }

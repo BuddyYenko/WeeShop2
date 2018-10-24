@@ -206,7 +206,7 @@ public class CashUp extends AppCompatActivity {
 //                                            String userName = jsonObject.getString("user_name");
 //                                            createSessions(userID, userName);
 //                                        }
-                                        builder.setTitle("WeeShop Response");
+                                        builder.setTitle("WeeShop");
                                         builder.setMessage(message);
                                         displayAlert(code);
                                     } catch (JSONException e) {
@@ -282,15 +282,13 @@ public class CashUp extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (code.equals("input_error")) {
-                    //Password.setText("");
+
                 }
 
                 else if (code.equals("cashup_failed")) {
-                    //Password.setText("");
+
                 }
                 else if (code.equals("cashup_success")) {
-                    //Password.setText("");
-                    //Email.setText("");
                     Intent home = new Intent(CashUp.this, Dashboard.class);
                     startActivity(home);
                 }
@@ -300,6 +298,10 @@ public class CashUp extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        //for negative side button
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.deeppurple));
+        //for positive side button
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.deeppurple));
     }
 
     public void createSessions(String userID, String userName) {

@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
                                             String userName = jsonObject.getString("user_name");
                                             createSessions(userID, userName);
                                         }
-                                        builder.setTitle("WeeShop Response");
+                                        builder.setTitle("WeeShop");
                                         builder.setMessage(message);
                                         displayAlert(code);
                                     } catch (JSONException e) {
@@ -113,10 +113,11 @@ public class Login extends AppCompatActivity {
                     Password.setText("");
                 }
                 else if (code.equals("login_success")) {
-                    Password.setText("");
-                    Email.setText("");
+
                     Intent scannerPage = new Intent(Login.this, Dashboard.class);
                     startActivity(scannerPage);
+                    Password.setText("");
+                    Email.setText("");
                 }
 
             }
@@ -124,6 +125,10 @@ public class Login extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        //for negative side button
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.deeppurple));
+        //for positive side button
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.deeppurple));
     }
 
     public void createSessions(String userID, String userName) {
