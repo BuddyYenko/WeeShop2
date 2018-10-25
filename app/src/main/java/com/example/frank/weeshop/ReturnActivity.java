@@ -120,7 +120,7 @@ public class ReturnActivity extends AppCompatActivity {
                                         builder.setTitle("WeeShop");
                                         builder.setMessage(message);
                                         displayAlert(code);
-//
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
