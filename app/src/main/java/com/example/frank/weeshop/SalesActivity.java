@@ -134,10 +134,7 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
             @Override
             public void onClick(View view) {
 
-
-
                 int listSize = mylista.size();
-
 
                 try {
                     //lista product_id
@@ -168,7 +165,7 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                     }
 
 
-                    final String res = edt_cash_paid.getText().toString();
+                    String res = edt_cash_paid.getText().toString();
                     difference = Double.parseDouble(res) - grandTotal;
 
 
@@ -183,7 +180,7 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                                         String message = jsonObject.getString("message");
 
                                         builder.setTitle("WeeShop");
-                                        builder.setMessage(message + "\n\nCustomer Change : " + String.valueOf(difference).toString());
+                                        builder.setMessage(message + "\n\nCustomer Change : " + String.valueOf(difference));
                                         displayAlert(code);
 
                                     } catch (JSONException e) {
