@@ -183,6 +183,10 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                                         builder.setMessage(message + "\n\nCustomer Change : " + String.valueOf(difference));
                                         displayAlert(code);
 
+
+
+
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
