@@ -13,7 +13,7 @@
     <ListView
         android:textColor="@android:color/white"
 
-        android:layout_above="@+id/layout_sales"
+        android:layout_above="@+id/layout_total"
         android:layout_below="@+id/tool_bar"
         android:id="@+id/listView"
         android:layout_width="match_parent"
@@ -28,41 +28,12 @@
     </ListView>
 
     <LinearLayout
-        android:id="@+id/layout_sales"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:gravity="end"
-        android:padding="5dp"
-        android:layout_above="@+id/layout_total"
-        android:weightSum="2">
-
-        <TextView
-            android:textColor="@android:color/white"
-
-            android:gravity="end"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Total Sales : R "
-            android:textSize="20sp">
-        </TextView>
-
-        <TextView
-            android:textColor="@android:color/white"
-
-            android:id="@+id/total_sales"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="0"
-            android:textSize="20sp">
-        </TextView>
-    </LinearLayout>
-    <LinearLayout
         android:id="@+id/layout_total"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="end"
         android:padding="5dp"
-        android:layout_above="@+id/layout_difference"
+        android:layout_above="@+id/layout_sales"
         android:weightSum="2">
 
         <TextView
@@ -85,6 +56,37 @@
             android:textSize="20sp">
         </TextView>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_sales"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="end"
+        android:padding="5dp"
+        android:layout_above="@+id/layout_difference"
+        android:weightSum="2">
+
+        <TextView
+            android:textColor="@android:color/white"
+
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Total Sales : R "
+            android:textSize="20sp">
+        </TextView>
+
+        <TextView
+            android:textColor="@android:color/white"
+
+            android:id="@+id/total_sales"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="0"
+            android:textSize="20sp">
+        </TextView>
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layout_difference"
         android:layout_height="wrap_content"

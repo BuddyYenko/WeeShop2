@@ -166,7 +166,7 @@ public class CashUp extends AppCompatActivity {
 
                 txt_cashUp.setText(String.format("%.2f", money));
 
-                difference = sales - money;
+                difference = money - sales;
                 txt_difference.setText(String.format("%.2f", difference));
 
 
