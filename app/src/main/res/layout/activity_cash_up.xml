@@ -72,7 +72,7 @@
             android:gravity="end"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Total Sales : R "
+            android:text="Sales Total : R "
             android:textSize="20sp">
         </TextView>
 
