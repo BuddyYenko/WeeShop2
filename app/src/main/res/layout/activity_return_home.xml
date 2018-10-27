@@ -49,7 +49,7 @@
             android:layout_margin="5dp"
             android:background="@android:color/white"
             android:hint="Enter Sales Ref"
-            android:inputType="text"
+            android:inputType="number"
             android:text="1"
             android:padding="10dp" />
 

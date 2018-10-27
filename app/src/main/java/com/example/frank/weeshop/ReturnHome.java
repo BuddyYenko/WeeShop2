@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class ReturnHome extends AppCompatActivity{
 
-    String FETCH_URL = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch_product.php";
+    String FETCH_URL = "http://sict-iis.nmmu.ac.za/weeshop/app/check_sale.php";
     String RETURN_URL ="http://sict-iis.nmmu.ac.za/weeshop/app/returns.php";
     Button get_products;
     ImageView btn_get;
@@ -100,18 +100,73 @@ public class ReturnHome extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 sales_id = txt_sales_id.getText().toString();
-                final Intent i =new Intent(getApplicationContext(),ReturnActivity.class);
                 //Intent i = new Intent(this, ReturnActivity.class);
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, FETCH_URL,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONArray jsonArray = new JSONArray(response);
+                                        //getting request object from json array
+                                        JSONObject request = jsonArray.getJSONObject(0);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("sales_id", sales_id);
-                i.putExtras(bundle);
-                startActivity(i);
+                                        //adding the sales products to list
+                                    String code = request.getString("code");
+                                    String message = request.getString("message");
+                                    if(code.equals("return_failed")) {
+                                        Toast.makeText(ReturnHome.this, message, Toast.LENGTH_SHORT).show();
+                                        builder.setTitle("WeeShop");
+                                        builder.setMessage(message);
+                                        displayAlert(code);
+                                    }
+                                    else if(code.equals("return_success")){
+                                            final Intent intent =new Intent(getApplicationContext(),ReturnActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("sales_id", sales_id);
+                                            intent.putExtras(bundle);
+                                            startActivity(intent);
+                                    }
+//
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+
+                        params.put("sales_id", sales_id);
+
+                        return params;
+                    }
+                };
+                MySingleton.getInstance(ReturnHome.this).addToRequestque(stringRequest);
+
 
             }
         });
 
     }
 
+    public void displayAlert(final String code) {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+            }
+        });
+
+        android.support.v7.app.AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        //for negative side button
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.deeppurple));
+        //for positive side button
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.deeppurple));
+    }
 }

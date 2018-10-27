@@ -159,18 +159,9 @@ public class ReturnActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-                            JSONObject jsonObject = jsonArray.getJSONObject(0);
-                            String code = jsonObject.getString("code");
-                            String message = jsonObject.getString("message");
-
-                            builder.setTitle("WeeShop");
-                            builder.setMessage(message);
-                            displayAlert(code);
-
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 //getting request object from json array
                                 JSONObject request = jsonArray.getJSONObject(i);
-
 
                                 //adding the sales products to list
                                 list.add(new Product(
@@ -184,7 +175,7 @@ public class ReturnActivity extends AppCompatActivity {
                             }
                             ReturnAdapter adapter = new ReturnAdapter(ReturnActivity.this, list, ReturnActivity.this);
                             recyclerView.setAdapter(adapter);
-
+//
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
