@@ -60,7 +60,9 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Product product = list.get(position);
         holder.name.setText(product.getName());
-        holder.price.setText(String.valueOf(product.getPrice()));
+       // holder.price.setText(String.valueOf(product.getPrice()));
+        String dbprice = String.format("%.2f", product.getPrice());
+        holder.price.setText(dbprice);
         holder.qty.setText("1");
         holder.qoh.setText(product.getQuantity());
 
@@ -89,7 +91,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
                     holder.qty.setText(String.valueOf(qty));
 
                     double total = Double.valueOf(product.getPrice()) * (currentQty + 1);
-                    holder.total.setText(String.valueOf(total));
+                    holder.total.setText(String.format("%.2f", total));
                     String product_id = product.getProduct_id();
                     String sale_qty = holder.qty.getText().toString();
 
@@ -125,7 +127,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
                     int qty = currentQty - 1;
                     double total = Double.valueOf(product.getPrice()) * (currentQty - 1);
                     holder.qty.setText(String.valueOf(qty));
-                    holder.total.setText(String.valueOf(total));
+                    holder.total.setText(String.format("%.2f", total));
                     String product_id = product.getProduct_id();
                     String sale_qty = holder.qty.getText().toString();
 
@@ -140,7 +142,9 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
                 }
             }
         });
-        holder.total.setText(String.valueOf(product.getPrice()));
+        String dbt = String.format("%.2f", product.getPrice());
+        holder.total.setText(dbt);
+
 
     }
 

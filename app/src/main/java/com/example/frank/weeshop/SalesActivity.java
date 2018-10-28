@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,8 +28,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.shockwave.pdfium.PdfDocument;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SalesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SalesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, OnPageChangeListener, OnLoadCompleteListener {
     String url = "http://sict-iis.nmmu.ac.za/weeshop/app/fetch.php";
     String SALES_URL = "http://sict-iis.nmmu.ac.za/weeshop/app/sales.php";
 
@@ -67,16 +73,26 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
     String name;
     private static String strEditText = null;
 
+    private static final String TAG = SalesActivity.class.getSimpleName();
+    public static final String SAMPLE_FILE = "weeshop_receipt.pdf";
+    PDFView pdfView;
+    Integer pageNumber = 0;
+    String pdfFileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales);
 
+
+        //pdfView = findViewById(R.id.pdfView);
+        //displayFromAsset(SAMPLE_FILE);
+
+
+
+
         builder = new AlertDialog.Builder(SalesActivity.this);
 
-
-        //builder.setMessage(getArguments().getString("msg"));//get Mesg here
 
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -135,7 +151,14 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
             public void onClick(View view) {
 
                 int listSize = mylista.size();
-
+                String res = edt_cash_paid.getText().toString();
+                if (res.equals(""))
+                {
+                    difference=0.00;
+                }
+                else {
+                    difference = Double.parseDouble(res) - grandTotal;
+                }
                 try {
                     //lista product_id
                     JSONObject mainObjectA = new JSONObject();
@@ -165,8 +188,7 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                     }
 
 
-                    String res = edt_cash_paid.getText().toString();
-                    difference = Double.parseDouble(res) - grandTotal;
+
 
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, SALES_URL,
@@ -180,7 +202,7 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
                                         String message = jsonObject.getString("message");
 
                                         builder.setTitle("WeeShop");
-                                        builder.setMessage(message + "\n\nCustomer Change : " + String.valueOf(difference));
+                                        builder.setMessage(message + "\n\nCustomer Change : " + String.format("%.2f", difference));
                                         displayAlert(code);
 
 
@@ -217,6 +239,24 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
             }
         });
     }
+
+//    private void displayFromAsset(String assetFileName) {
+//        pdfFileName = assetFileName;
+//
+//
+//
+//        pdfView.fromAsset(SAMPLE_FILE)
+//                .defaultPage(pageNumber)
+//                .enableSwipe(true)
+//
+//                .swipeHorizontal(false)
+//                .onPageChange(this)
+//                .enableAnnotationRendering(true)
+//                .onLoad(this)
+//                .scrollHandle(new DefaultScrollHandle(this))
+//                .load();
+//    }
+
 
 
     private void displayAlert(final String code) {
@@ -333,7 +373,7 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
         grandTotal = grandTotal + price;
         mylista.add(product_id);
         mylistb.add(sales_qty);
-        tv_grandTotal.setText(String.valueOf(grandTotal));
+        tv_grandTotal.setText(String.format("%.2f", grandTotal));
 
 
 
@@ -372,7 +412,8 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
             {
                 grandTotal = grandTotal - total;
             }
-            tv_grandTotal.setText(String.valueOf(grandTotal));
+//            tv_grandTotal.setText(String.valueOf(grandTotal));
+            tv_grandTotal.setText(String.format("%.2f", grandTotal));
             boolean exists = false;
             int index = -1;
 
@@ -399,4 +440,34 @@ public class SalesActivity extends AppCompatActivity implements SharedPreference
             }
         }
     };
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+
+    @Override
+    public void onPageChanged(int page, int pageCount) {
+        pageNumber = page;
+        setTitle(String.format("%s %s / %s", pdfFileName, page + 1, pageCount));
+    }
+
+    @Override
+    public void loadComplete(int nbPages) {
+        PdfDocument.Meta meta = pdfView.getDocumentMeta();
+        printBookmarksTree(pdfView.getTableOfContents(), "-");
+
+    }
+
+    public void printBookmarksTree(List<PdfDocument.Bookmark> tree, String sep) {
+        for (PdfDocument.Bookmark b : tree) {
+
+            Log.e(TAG, String.format("%s %s, p %d", sep, b.getTitle(), b.getPageIdx()));
+
+            if (b.hasChildren()) {
+                printBookmarksTree(b.getChildren(), sep + "-");
+            }
+        }
+    }
 }

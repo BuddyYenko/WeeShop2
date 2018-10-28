@@ -9,6 +9,8 @@
 
 
 
+
+
     <include layout="@layout/content_main" />
 
     <Button
@@ -33,6 +35,12 @@
         android:layout_gravity="bottom|end"
         android:src="@drawable/qrcode"
         />
+
+    <!--<com.github.barteksc.pdfviewer.PDFView-->
+        <!--android:id="@+id/pdfView"-->
+        <!--android:layout_below="@+id/btn_scan"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -9,6 +9,15 @@
         android:id="@+id/tool_bar"
         layout="@layout/toolbar"/>
 
+    <!--<com.github.barteksc.pdfviewer.PDFView-->
+        <!--android:background="@drawable/background"-->
+        <!--android:textColor="@android:color/black"-->
+
+        <!--android:id="@+id/pdfView"-->
+        <!--android:layout_below="@+id/tool_bar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
+
     <LinearLayout
         android:gravity="end"
         android:layout_below="@+id/tool_bar"
@@ -30,7 +39,7 @@
             android:id="@+id/grand_total"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="0"
+            android:text="0.00"
             android:textColor="@android:color/white"
             android:textSize="20sp">
         </TextView>
@@ -76,6 +85,8 @@
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
+
+
 
 
 </RelativeLayout>
